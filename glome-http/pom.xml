@@ -3,13 +3,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.glome</groupId>
 	<artifactId>glome-http</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<parent>
+		<groupId>io.glome</groupId>
+		<artifactId>glome-core</artifactId>
+		<version>${glome.version}</version>
+	</parent>
+	
 	<modules>
-		<module>glome-http-schema</module>
+		<module>glome-http-double</module>
 		<module>glome-http-schema</module>
 	</modules>
 

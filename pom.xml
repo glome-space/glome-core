@@ -5,8 +5,25 @@
 
 	<groupId>io.glome</groupId>
 	<artifactId>glome-core</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${glome.version}</version>
 	<packaging>pom</packaging>
+
+	<properties>
+		<glome.version>0.0.1-SNAPSHOT</glome.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>1.5.7.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<modules>
 		<module>glome-dispatcher</module>
