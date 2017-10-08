@@ -1,5 +1,5 @@
 package io.glome.schema.domain;
 
-public abstract class Request {
+public abstract class Response {
 
 }
