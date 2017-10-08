@@ -1,4 +1,4 @@
-package io.glome.http.schema;
+package io.glome.http.schema.domain;
 
 public class URL {
 

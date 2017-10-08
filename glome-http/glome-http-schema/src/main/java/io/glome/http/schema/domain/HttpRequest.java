@@ -1,10 +1,10 @@
-package io.glome.http.schema;
+package io.glome.http.schema.domain;
 
 import java.util.List;
 
-import io.glome.schema.Variable;
+import io.glome.schema.domain.Request;
 
-public class Request {
+public class HttpRequest extends Request {
 
 	public enum Method {
 		GET, PUT, POST, PATCH, DELETE, COPY, HEAD, OPTIONS, LINK, UNLINK, PURGE, LOCK, UNLOCK, PROPFIND, VIEW
@@ -25,7 +25,5 @@ public class Request {
 	private List<Header> headers;
 
 	private Body body;
-
-	private List<Variable> variables;
 
 }
