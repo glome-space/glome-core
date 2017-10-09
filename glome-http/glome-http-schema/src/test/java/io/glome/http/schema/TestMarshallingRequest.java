@@ -19,7 +19,7 @@ import io.glome.http.schema.domain.HttpRequest.Method;
 import io.glome.http.schema.domain.HttpRequestItem;
 import io.glome.http.schema.domain.URL;
 
-public class TestMarshallingHttpRequest {
+public class TestMarshallingRequest {
 
 	@Test
 	public void testGeneratingHttpRequestJson() throws Exception {
