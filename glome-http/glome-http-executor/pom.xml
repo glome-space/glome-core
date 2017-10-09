@@ -12,4 +12,24 @@
 		<version>${glome.version}</version>
 	</parent>
 
+	<dependencies>
+		<dependency>
+			<groupId>io.ratpack</groupId>
+			<artifactId>ratpack-core</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.ratpack</groupId>
+			<artifactId>ratpack-test</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
 </project>
