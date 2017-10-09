@@ -1,0 +1,37 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"definitions": {
+		
+	},
+	"id": "http://glome.io/schema/request-item-schema.json",
+	"properties": {
+		"request": {
+			"$ref": "file:src/main/resources/schema/request-schema.json"
+		},
+		"variables": {
+			"default": null,
+			"description": "An explanation about the purpose of this instance.",
+			"id": "#/properties/method",
+			"title": "The method schema.",
+			"type": [
+				"null",
+				"object"
+			]
+		},
+		"description": {
+			"default": null,
+			"description": "An explanation about the purpose of this instance.",
+			"id": "#/properties/body",
+			"title": "The body schema.",
+			"type": [
+				"null",
+				"object"
+			]
+		}
+	},
+	"additionalProperties": false,
+	"required": [
+		"request"
+	],
+	"type": "object"
+}

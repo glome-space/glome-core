@@ -2,6 +2,11 @@ package io.glome.http.schema.domain;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import io.glome.schema.domain.Request;
 
 public class HttpRequest extends Request {
@@ -10,23 +15,26 @@ public class HttpRequest extends Request {
 		GET, PUT, POST, PATCH, DELETE, COPY, HEAD, OPTIONS, LINK, UNLINK, PURGE, LOCK, UNLOCK, PROPFIND, VIEW
 	}
 
-	public HttpRequest() {
+	protected HttpRequest() {
 	}
-	
+
+	public HttpRequest(URL url) {
+		this.url = url;
+	}
+
 	private URL url;
 
-	private Proxy proxy;
-
-	private Certificate certificate;
-
 	private Method method;
-
-	private Description description;
 
 	private List<Header> headers;
 
 	private Body body;
 
+	private Proxy proxy;
+
+	private Certificate certificate;
+
+	@NotNull
 	public URL getUrl() {
 		return url;
 	}
@@ -35,6 +43,7 @@ public class HttpRequest extends Request {
 		this.url = url;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public Proxy getProxy() {
 		return proxy;
 	}
@@ -43,6 +52,7 @@ public class HttpRequest extends Request {
 		this.proxy = proxy;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public Certificate getCertificate() {
 		return certificate;
 	}
@@ -51,20 +61,13 @@ public class HttpRequest extends Request {
 		this.certificate = certificate;
 	}
 
+	@NotNull
 	public Method getMethod() {
 		return method;
 	}
 
 	public void setMethod(Method method) {
 		this.method = method;
-	}
-
-	public Description getDescription() {
-		return description;
-	}
-
-	public void setDescription(Description description) {
-		this.description = description;
 	}
 
 	public List<Header> getHeaders() {
@@ -83,5 +86,4 @@ public class HttpRequest extends Request {
 		this.body = body;
 	}
 
-	
 }

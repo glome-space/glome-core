@@ -1,7 +1,22 @@
 package io.glome.schema.domain;
 
-public class RequestItem extends Item {
+public class RequestItem<REQUEST extends Request> extends Item {
 
-	private Request request;
+	private REQUEST request;
+	
+	protected RequestItem() {
+	}
+
+	public RequestItem(REQUEST request) {
+		this.request = request;
+	}
+	
+	public REQUEST getRequest() {
+		return request;
+	}
+
+	public void setRequest(REQUEST request) {
+		this.request = request;
+	}
 	
 }

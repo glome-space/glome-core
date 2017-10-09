@@ -1,0 +1,67 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"definitions": {
+		
+	},
+	"id": "http://glome.io/schema/request-schema.json",
+	"properties": {
+		"body": {
+			"default": null,
+			"description": "An explanation about the purpose of this instance.",
+			"id": "#/properties/body",
+			"title": "The body schema.",
+			"type": [
+				"null",
+				"object"
+			]
+		},
+		"headers": {
+			"default": null,
+			"description": "An explanation about the purpose of this instance.",
+			"id": "#/properties/headers",
+			"title": "The headers schema.",
+			"type":  [
+				"null",
+				"object"
+			]
+		},
+		"method": {
+			"default": null,
+			"description": "An explanation about the purpose of this instance.",
+			"id": "#/properties/method",
+			"title": "The method schema.",
+			"type":  [
+				"null",
+				"object"
+			]
+		},
+		"url": {
+			"default": null,
+			"description": "An explanation about the purpose of this instance.",
+			"id": "#/properties/url",
+			"title": "The url schema.",
+			"type":  [
+				"null",
+				"object"
+			]
+		},
+		"proxy": {
+			"default": null,
+			"description": "An explanation about the purpose of this instance.",
+			"id": "#/properties/proxy",
+			"title": "The proxy schema.",
+			"type":  [
+				"null",
+				"object"
+			]
+		}
+	},
+	"additionalProperties": false,
+	"required": [
+		"url",
+		"headers",
+		"body",
+		"method"
+	],
+	"type": "object"
+}

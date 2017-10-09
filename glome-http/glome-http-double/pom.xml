@@ -8,7 +8,7 @@
 
 	<parent>
 		<groupId>io.glome</groupId>
-		<artifactId>glome-jdbc</artifactId>
+		<artifactId>glome-http</artifactId>
 		<version>${glome.version}</version>
 	</parent>
 
