@@ -2,8 +2,6 @@ package io.glome.http.schema.domain;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -13,13 +11,6 @@ public class HttpRequest extends Request {
 
 	public enum Method {
 		GET, PUT, POST, PATCH, DELETE, COPY, HEAD, OPTIONS, LINK, UNLINK, PURGE, LOCK, UNLOCK, PROPFIND, VIEW
-	}
-
-	protected HttpRequest() {
-	}
-
-	public HttpRequest(URL url) {
-		this.url = url;
 	}
 
 	private URL url;
@@ -33,7 +24,15 @@ public class HttpRequest extends Request {
 	private Proxy proxy;
 
 	private Certificate certificate;
-	
+
+	protected HttpRequest() {
+	}
+
+	public HttpRequest(URL url, Method method) {
+		this.url = url;
+		this.method = method;
+	}
+
 	public URL getUrl() {
 		return url;
 	}
@@ -68,6 +67,7 @@ public class HttpRequest extends Request {
 		this.method = method;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public List<Header> getHeaders() {
 		return headers;
 	}
@@ -76,6 +76,7 @@ public class HttpRequest extends Request {
 		this.headers = headers;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public Body getBody() {
 		return body;
 	}

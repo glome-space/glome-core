@@ -1,5 +1,8 @@
 package io.glome.http.schema.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 public class URL {
 
 	private String raw;
@@ -21,6 +24,7 @@ public class URL {
 		this.raw = raw;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public String getRaw() {
 		return raw;
 	}
@@ -29,6 +33,7 @@ public class URL {
 		this.raw = raw;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public String getProtocol() {
 		return protocol;
 	}
@@ -37,6 +42,7 @@ public class URL {
 		this.protocol = protocol;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public String getHost() {
 		return host;
 	}
@@ -45,6 +51,7 @@ public class URL {
 		this.host = host;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public String getPath() {
 		return path;
 	}
@@ -53,6 +60,7 @@ public class URL {
 		this.path = path;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public Integer getPort() {
 		return port;
 	}
@@ -61,6 +69,7 @@ public class URL {
 		this.port = port;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public Query getQuery() {
 		return query;
 	}

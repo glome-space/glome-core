@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.glome.http.schema.domain.HttpRequest;
+import io.glome.http.schema.domain.HttpRequest.Method;
 import io.glome.http.schema.domain.HttpRequestItem;
 import io.glome.http.schema.domain.URL;
 
@@ -22,7 +23,7 @@ public class TestMarshallingHttpRequest {
 
 	@Test
 	public void testGeneratingHttpRequestJson() throws Exception {
-		HttpRequest httpRequest = new HttpRequest(new URL("http://localhost:8080/health"));
+		HttpRequest httpRequest = new HttpRequest(new URL("http://localhost:8080/health"), Method.GET);
 
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
@@ -47,7 +48,7 @@ public class TestMarshallingHttpRequest {
 	
 	@Test
 	public void testGeneratingHttpRequestItemJson() throws Exception {
-		HttpRequestItem httpRequestItem = new HttpRequestItem(new HttpRequest(new URL("http://localhost:8080/health")));
+		HttpRequestItem httpRequestItem = new HttpRequestItem(new HttpRequest(new URL("http://localhost:8080/health"), Method.GET));
 
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
