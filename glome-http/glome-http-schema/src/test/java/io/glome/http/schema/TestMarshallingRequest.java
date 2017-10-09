@@ -25,16 +25,9 @@ public class TestMarshallingRequest {
 	public void testGeneratingHttpRequestJson() throws Exception {
 		HttpRequest httpRequest = new HttpRequest(new URL("http://localhost:8080/health"), Method.GET);
 
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<HttpRequest>> violations = validator.validate(httpRequest);
-
-		Assert.assertEquals("Violations:" + violations.toString(), 0, violations.size());
-
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-		
 
 		String out = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(httpRequest);
 		System.out.println(out);
@@ -45,26 +38,21 @@ public class TestMarshallingRequest {
 		}
 
 	}
-	
+
 	@Test
 	public void testGeneratingHttpRequestItemJson() throws Exception {
-		HttpRequestItem httpRequestItem = new HttpRequestItem(new HttpRequest(new URL("http://localhost:8080/health"), Method.GET));
-
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<HttpRequestItem>> violations = validator.validate(httpRequestItem);
-
-		Assert.assertEquals("Violations:" + violations.toString(), 0, violations.size());
+		HttpRequestItem httpRequestItem = new HttpRequestItem(
+				new HttpRequest(new URL("http://localhost:8080/health"), Method.GET));
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-		
 
 		String out = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(httpRequestItem);
 		System.out.println(out);
 
-		try (Scanner scanner = new Scanner(getClass().getResourceAsStream("/schema/request-item-schema.json"), "UTF-8")) {
+		try (Scanner scanner = new Scanner(getClass().getResourceAsStream("/schema/request-item-schema.json"),
+				"UTF-8")) {
 			String schema = scanner.useDelimiter("\\A").next();
 			JsonValidationUtils.validateJson(schema, out);
 		}
