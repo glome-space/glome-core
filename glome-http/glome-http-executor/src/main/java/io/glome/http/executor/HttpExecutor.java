@@ -1,38 +1,55 @@
 package io.glome.http.executor;
 
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
-import ratpack.http.client.HttpClient;
-import ratpack.server.PublicAddress;
-import ratpack.test.embed.EmbeddedApp;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+import io.glome.http.schema.domain.HttpRequest;
+import io.glome.http.schema.domain.HttpResponse;
 
 public class HttpExecutor {
 
-	public static void main(String... args) throws Exception {
-		EmbeddedApp.fromHandlers(chain -> {
-			chain.get("simpleGet", ctx -> {
-				PublicAddress address = ctx.get(PublicAddress.class); // find local ip address
-				HttpClient httpClient = ctx.get(HttpClient.class); // get httpClient
-				URI uri = address.get("httpClientGet");
-
-				httpClient.get(uri).then(response -> ctx.render(response.getBody().getText()) // Render the response
-																								// from the httpClient
-																								// GET request
-				);
-			}).get("simplePost", ctx -> {
-				PublicAddress address = ctx.get(PublicAddress.class); // find local ip address
-				HttpClient httpClient = ctx.get(HttpClient.class); // get httpClient
-				URI uri = address.get("httpClientPost");
-
-				httpClient.post(uri, s -> s.getBody().text("foo"))
-						.then(response -> ctx.render(response.getBody().getText()) // Render the response from the
-																					// httpClient POST request
-				);
-			}).get("httpClientGet", ctx -> ctx.render("httpClientGet")).post("httpClientPost",
-					ctx -> ctx.render(ctx.getRequest().getBody().map(b -> b.getText().toUpperCase())));
-		}).test(testHttpClient -> {
-			System.out.println("++++++++++++++++++simpleGet " + testHttpClient.getText("/simpleGet"));
-			System.out.println("++++++++++++++++++simplePost " + testHttpClient.getText("/simplePost"));
-		});
+	public HttpExecutor() {
 	}
+
+	public HttpResponse exec(HttpRequest request) throws Exception {
+		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+			HttpUriRequest httpUriRequest = null;
+			switch (request.getMethod()) {
+			case GET:
+				httpUriRequest = new HttpGet(request.getUrl().toString());
+				break;
+			case POST:
+				HttpPost httpPost = new HttpPost(request.getUrl().toString());
+				List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+				nvps.add(new BasicNameValuePair("username1", "vip"));
+				nvps.add(new BasicNameValuePair("password2", "secret"));
+				httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+				httpUriRequest = httpPost;
+				break;
+			default:
+				throw new Error("Method " + request.getMethod() + " not supported");
+			}
+			try (CloseableHttpResponse response = httpclient.execute(httpUriRequest)) {
+				System.out.println(response.getStatusLine());
+				HttpEntity entity = response.getEntity();
+				// do something useful with the response body
+				// and ensure it is fully consumed
+				EntityUtils.consume(entity);
+			}
+		}
+		return null;
+	}
+
 }
