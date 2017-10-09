@@ -33,8 +33,7 @@ public class HttpRequest extends Request {
 	private Proxy proxy;
 
 	private Certificate certificate;
-
-	@NotNull
+	
 	public URL getUrl() {
 		return url;
 	}
@@ -61,7 +60,6 @@ public class HttpRequest extends Request {
 		this.certificate = certificate;
 	}
 
-	@NotNull
 	public Method getMethod() {
 		return method;
 	}

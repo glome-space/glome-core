@@ -11,7 +11,7 @@
 		"variables": {
 			"default": null,
 			"description": "An explanation about the purpose of this instance.",
-			"id": "#/properties/method",
+			"id": "#/properties/variables",
 			"title": "The method schema.",
 			"type": [
 				"null",
@@ -21,7 +21,7 @@
 		"description": {
 			"default": null,
 			"description": "An explanation about the purpose of this instance.",
-			"id": "#/properties/body",
+			"id": "#/properties/description",
 			"title": "The body schema.",
 			"type": [
 				"null",

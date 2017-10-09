@@ -31,7 +31,6 @@
 			"id": "#/properties/method",
 			"title": "The method schema.",
 			"type":  [
-				"null",
 				"object"
 			]
 		},
@@ -41,7 +40,6 @@
 			"id": "#/properties/url",
 			"title": "The url schema.",
 			"type":  [
-				"null",
 				"object"
 			]
 		},
