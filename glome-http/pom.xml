@@ -13,7 +13,7 @@
 	</parent>
 	
 	<modules>
-		<module>glome-http-double</module>
+		<module>glome-http-testdouble</module>
 		<module>glome-http-executor</module>
 		<module>glome-http-schema</module>
 	</modules>

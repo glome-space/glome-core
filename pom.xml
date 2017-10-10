@@ -29,7 +29,7 @@
 
 	<modules>
 		<module>glome-dispatcher</module>
-		<module>glome-double</module>
+		<module>glome-testdouble</module>
 		<module>glome-node</module>
 		<module>glome-schema</module>
 		<module>glome-http</module>
