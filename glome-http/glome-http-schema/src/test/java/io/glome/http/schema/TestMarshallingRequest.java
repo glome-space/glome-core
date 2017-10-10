@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -18,11 +19,7 @@ public class TestMarshallingRequest {
 	public void testGeneratingHttpRequestJson() throws Exception {
 		HttpRequest httpRequest = new HttpRequest(new RawURL("http://localhost:8080/health"), Method.GET);
 
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
-		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-
-		String out = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(httpRequest);
+		String out = writeValueAsString(httpRequest);
 		System.out.println(out);
 
 		try (Scanner scanner = new Scanner(getClass().getResourceAsStream("/schema/request-schema.json"), "UTF-8")) {
@@ -37,11 +34,7 @@ public class TestMarshallingRequest {
 		HttpRequestItem httpRequestItem = new HttpRequestItem(
 				new HttpRequest(new RawURL("http://localhost:8080/health"), Method.GET));
 
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
-		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-
-		String out = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(httpRequestItem);
+		String out = writeValueAsString(httpRequestItem);
 		System.out.println(out);
 
 		try (Scanner scanner = new Scanner(getClass().getResourceAsStream("/schema/request-item-schema.json"),
@@ -52,4 +45,11 @@ public class TestMarshallingRequest {
 
 	}
 
+	private static String writeValueAsString(Object value) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
+		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+		return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value);
+
+	}
 }
