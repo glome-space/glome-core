@@ -19,7 +19,7 @@ public class HttpRequest extends Request {
 
 	private List<Header> headers;
 
-	private Body body;
+	private RequestBody requestBody;
 
 	private Proxy proxy;
 
@@ -77,12 +77,12 @@ public class HttpRequest extends Request {
 	}
 
 	@JsonInclude(Include.NON_NULL)
-	public Body getBody() {
-		return body;
+	public RequestBody getRequestBody() {
+		return requestBody;
 	}
 
-	public void setBody(Body body) {
-		this.body = body;
+	public void setRequestBody(RequestBody body) {
+		this.requestBody = body;
 	}
 
 }

@@ -1,14 +1,7 @@
 package io.glome.http.schema;
 
 import java.util.Scanner;
-import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,13 +10,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.glome.http.schema.domain.HttpRequest;
 import io.glome.http.schema.domain.HttpRequest.Method;
 import io.glome.http.schema.domain.HttpRequestItem;
-import io.glome.http.schema.domain.URL;
+import io.glome.http.schema.domain.RawURL;
 
 public class TestMarshallingRequest {
 
 	@Test
 	public void testGeneratingHttpRequestJson() throws Exception {
-		HttpRequest httpRequest = new HttpRequest(new URL("http://localhost:8080/health"), Method.GET);
+		HttpRequest httpRequest = new HttpRequest(new RawURL("http://localhost:8080/health"), Method.GET);
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
@@ -42,7 +35,7 @@ public class TestMarshallingRequest {
 	@Test
 	public void testGeneratingHttpRequestItemJson() throws Exception {
 		HttpRequestItem httpRequestItem = new HttpRequestItem(
-				new HttpRequest(new URL("http://localhost:8080/health"), Method.GET));
+				new HttpRequest(new RawURL("http://localhost:8080/health"), Method.GET));
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);

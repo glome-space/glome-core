@@ -1,5 +1,6 @@
 package io.glome.http.schema.domain;
 
-public class Description {
-//TODO
+public abstract class RequestBody {
+
+
 }

@@ -8,7 +8,7 @@ public class HttpResponse extends Response {
 
 	private List<Header> headers;
 	
-	private Body body;
+	private ResponseBody responseBody;
 	
 	private String status;
 	

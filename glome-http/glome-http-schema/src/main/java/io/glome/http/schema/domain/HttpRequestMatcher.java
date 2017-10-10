@@ -14,7 +14,7 @@ public class HttpRequestMatcher implements Matcher {
 
 	private List<HeaderMatcher> headerMatchers;
 
-	private List<BodyMatcher> bodyMatchers;
+	private List<RequestBodyMatcher> requestBodyMatchers;
 
 	public boolean matches(Object actual) {
 		return false;
