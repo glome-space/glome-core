@@ -1,7 +1,7 @@
 {
   "request" : {
     "url" : {
-      "@type" : "RawURL",
+      "@type" : "raw-url",
       "raw" : "http://localhost:8080/health"
     },
     "method" : "GET"
