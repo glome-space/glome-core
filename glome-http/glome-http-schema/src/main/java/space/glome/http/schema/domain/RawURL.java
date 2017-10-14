@@ -10,6 +10,9 @@ public class RawURL extends URL {
 
 	private String raw;
 
+	public RawURL() {
+	}
+	
 	public RawURL(String raw) {
 		this.raw = raw;
 	}
