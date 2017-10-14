@@ -1,5 +1,8 @@
 package space.glome.schema.domain;
 
+/**
+ * Glome Processing Unit for triggering the request.
+ */
 public class RequestItem<REQUEST extends Request> extends Item {
 
 	private REQUEST request;

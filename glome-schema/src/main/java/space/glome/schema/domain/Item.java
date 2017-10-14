@@ -5,6 +5,9 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+/**
+ * Item is a basic Glome Processing Unit. Examples of such units are HTTP Request Item or HTTP Mapping Item
+ */
 public abstract class Item {
 
 	private List<Variable> variables;
