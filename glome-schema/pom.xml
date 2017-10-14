@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>io.glome</groupId>
+		<groupId>space.glome</groupId>
 		<artifactId>glome-core</artifactId>
 		<version>${glome.version}</version>
 	</parent>

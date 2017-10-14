@@ -3,10 +3,36 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.glome</groupId>
+	<groupId>space.glome</groupId>
 	<artifactId>glome-core</artifactId>
 	<version>${glome.version}</version>
 	<packaging>pom</packaging>
+
+	<name>glome</name>
+	<description>Glome is an open source tool which provides test doubles over the wire.</description>
+	<url>http://glome.space</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Michael Lifschitz</name>
+			<email>Michael.Lifschitz@gmail.com</email>
+			<organization>Glome</organization>
+			<organizationUrl>http://www.glome.space</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/glome-space/glome-core.git</connection>
+		<developerConnection>scm:git:ssh://github.com:glome-space/glome-core.git</developerConnection>
+		<url>https://github.com/glome-space/glome-core</url>
+	</scm>
 
 	<properties>
 		<glome.version>0.0.1-SNAPSHOT</glome.version>
