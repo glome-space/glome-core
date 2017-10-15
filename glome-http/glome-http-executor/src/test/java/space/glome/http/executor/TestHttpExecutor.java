@@ -16,14 +16,16 @@ public class TestHttpExecutor {
 	public void testGet() throws Exception {
 		HttpRequestItem httpRequestItem = unmarshal("/samples/request-item-001.json");
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
-		System.out.println(record);
+		String output = JsonMarshallingUtils.marshal(record);
+		System.out.println(output);
 	}
 
 	@Test
 	public void testPost() throws Exception {
 		HttpRequestItem httpRequestItem = unmarshal("/samples/request-item-002.json");
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
-		System.out.println(record);
+		String output = JsonMarshallingUtils.marshal(record);
+		System.out.println(output);
 	}
 	
 	private HttpRequestItem unmarshal(String jsonPath) throws Exception {

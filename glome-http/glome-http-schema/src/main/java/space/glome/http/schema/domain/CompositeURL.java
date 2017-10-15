@@ -21,7 +21,7 @@ public class CompositeURL extends URL {
 	private String query;
 
 	private String fragment;
-	
+
 	public CompositeURL() {
 	}
 
@@ -95,12 +95,5 @@ public class CompositeURL extends URL {
 	public void setFragment(String fragment) {
 		this.fragment = fragment;
 	}
-
-	@Override
-	public String toString() {
-		return "CompositeURL [scheme=" + scheme + ", userInfo=" + userInfo + ", host=" + host + ", port=" + port
-				+ ", path=" + path + ", query=" + query + ", fragment=" + fragment + "]";
-	}
-
 
 }

@@ -9,7 +9,7 @@ public class RawURL extends URL {
 
 	public RawURL() {
 	}
-	
+
 	public RawURL(String raw) {
 		this.raw = raw;
 	}
@@ -22,11 +22,5 @@ public class RawURL extends URL {
 	public void setRaw(String raw) {
 		this.raw = raw;
 	}
-
-	@Override
-	public String toString() {
-		return "RawURL [raw=" + raw + "]";
-	}
-
 
 }

@@ -3,7 +3,7 @@ package space.glome.http.schema.domain;
 public class RawRequestBody extends RequestBody {
 
 	private String raw;
-	
+
 	public RawRequestBody() {
 	}
 
@@ -19,10 +19,4 @@ public class RawRequestBody extends RequestBody {
 		this.raw = raw;
 	}
 
-	@Override
-	public String toString() {
-		return "RawRequestBody [raw=" + raw + "]";
-	}
-
-	
 }

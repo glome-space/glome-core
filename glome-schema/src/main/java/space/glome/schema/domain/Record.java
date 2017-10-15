@@ -3,9 +3,9 @@ package space.glome.schema.domain;
 public class Record<REQUEST extends Request, RESPONSE extends Response> {
 
 	private REQUEST request;
-	
+
 	private RESPONSE response;
-	
+
 	public Record() {
 	}
 
@@ -13,7 +13,7 @@ public class Record<REQUEST extends Request, RESPONSE extends Response> {
 		this.request = request;
 		this.response = response;
 	}
-	
+
 	public REQUEST getRequest() {
 		return request;
 	}
@@ -29,11 +29,5 @@ public class Record<REQUEST extends Request, RESPONSE extends Response> {
 	public void setResponse(RESPONSE response) {
 		this.response = response;
 	}
-
-	@Override
-	public String toString() {
-		return "Record [request=" + request + ", response=" + response + "]";
-	}
-	
 
 }

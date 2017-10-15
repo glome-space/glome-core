@@ -7,13 +7,13 @@ import space.glome.schema.domain.Response;
 public class HttpResponse extends Response {
 
 	private List<Header> headers;
-	
+
 	private String responseBody;
-	
+
 	private String status;
-	
+
 	private Integer code;
-	
+
 	public HttpResponse() {
 	}
 
@@ -48,10 +48,5 @@ public class HttpResponse extends Response {
 	public void setCode(Integer code) {
 		this.code = code;
 	}
-	
-	@Override
-	public String toString() {
-		return "HttpResponse [headers=" + headers + ", responseBody=" + responseBody + ", status=" + status + ", code="
-				+ code + "]";
-	}
+
 }
