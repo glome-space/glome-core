@@ -3,6 +3,7 @@ package space.glome.http.executor;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import space.glome.http.schema.JsonMarshallingUtils;
@@ -16,16 +17,14 @@ public class TestHttpExecutor {
 	public void testGet() throws Exception {
 		HttpRequestItem httpRequestItem = unmarshal("/samples/request-item-001.json");
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
-		String output = JsonMarshallingUtils.marshal(record);
-		System.out.println(output);
+		Assert.assertEquals(200, record.getResponse().getCode().intValue()); 
 	}
 
 	@Test
 	public void testPost() throws Exception {
 		HttpRequestItem httpRequestItem = unmarshal("/samples/request-item-002.json");
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
-		String output = JsonMarshallingUtils.marshal(record);
-		System.out.println(output);
+		Assert.assertEquals(200, record.getResponse().getCode().intValue()); 
 	}
 	
 	private HttpRequestItem unmarshal(String jsonPath) throws Exception {

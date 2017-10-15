@@ -1,9 +1,9 @@
 package space.glome.http.executor;
 
+import static space.glome.http.executor.ApacheHttpConverters.convert;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,19 +17,12 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import space.glome.http.schema.domain.CompositeURL;
-import space.glome.http.schema.domain.Header;
 import space.glome.http.schema.domain.HttpRecord;
 import space.glome.http.schema.domain.HttpRequest;
 import space.glome.http.schema.domain.HttpResponse;
-import space.glome.http.schema.domain.RawRequestBody;
-import space.glome.http.schema.domain.RawURL;
-import space.glome.http.schema.domain.RequestBody;
-import space.glome.http.schema.domain.URL;
 
 public class HttpExecutor {
 
@@ -74,71 +67,5 @@ public class HttpExecutor {
 		return new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
 	}
 
-	private static org.apache.http.Header[] convert(List<Header> from) {
-		if (from == null) {
-			return null;
-		}
-		org.apache.http.Header[] retVal = new org.apache.http.Header[from.size()];
-		for (int i = 0; i < from.size(); i++) {
-			retVal[i] = convert(from.get(i));
-		}
-		return retVal;
-	}
 
-	private static org.apache.http.Header convert(Header from) {
-		if (from == null) {
-			return null;
-		}
-		return new BasicHeader(from.getKey(), from.getValue());
-	}
-
-	private static List<Header> convert(org.apache.http.Header[] from) {
-		if (from == null) {
-			return null;
-		}
-		List<Header> retVal = new ArrayList<>();
-		for (int i = 0; i < from.length; i++) {
-			retVal.add(convert(from[i]));
-		}
-		return retVal;
-	}
-
-	private static Header convert(org.apache.http.Header from) {
-		if (from == null) {
-			return null;
-		}
-		return new Header(from.getName(), from.getValue());
-	}
-
-	private static String convert(URL from) {
-		if (from == null) {
-			return null;
-		}
-		try {
-			if (from instanceof RawURL) {
-				RawURL rawURL = (RawURL) from;
-				return new URI(rawURL.getRaw()).toString();
-			} else if (from instanceof CompositeURL) {
-				CompositeURL compositeURL = (CompositeURL) from;
-				return new URI(compositeURL.getScheme(), compositeURL.getUserInfo(), compositeURL.getHost(),
-						compositeURL.getPort() == null ? 0 : compositeURL.getPort(), compositeURL.getPath(),
-						compositeURL.getQuery(), compositeURL.getFragment()).toString();
-			} else {
-				throw new Error("Can't convert URL");
-			}
-		} catch (URISyntaxException e) {
-			throw new Error("Can't convert URL", e);
-		}
-	}
-
-	private static byte[] convert(RequestBody from) {
-		if (from == null) {
-			return new byte[0];
-		}
-		if (from instanceof RawRequestBody) {
-			return ((RawRequestBody)from).getRaw().getBytes();
-		} else {
-			throw new Error("Can't convert RequestBody");
-		}
-	}
 }
