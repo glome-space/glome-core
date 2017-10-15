@@ -98,11 +98,9 @@ public class CompositeURL extends URL {
 
 	@Override
 	public String toString() {
-		try {
-			return new URI(scheme, userInfo, host, port == null ? 0 : port, path, query, fragment)
-					.toString();
-		} catch (URISyntaxException e) {
-			throw new Error("Failed to assemble URL");
-		}
+		return "CompositeURL [scheme=" + scheme + ", userInfo=" + userInfo + ", host=" + host + ", port=" + port
+				+ ", path=" + path + ", query=" + query + ", fragment=" + fragment + "]";
 	}
+
+
 }

@@ -1,8 +1,5 @@
 package space.glome.http.schema.domain;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -28,10 +25,8 @@ public class RawURL extends URL {
 
 	@Override
 	public String toString() {
-		try {
-			return new URI(raw).toString();
-		} catch (URISyntaxException e) {
-			throw new Error("Failed to assemble URL");
-		}
+		return "RawURL [raw=" + raw + "]";
 	}
+
+
 }

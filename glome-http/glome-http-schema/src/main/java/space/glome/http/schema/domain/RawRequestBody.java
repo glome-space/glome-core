@@ -19,4 +19,10 @@ public class RawRequestBody extends RequestBody {
 		this.raw = raw;
 	}
 
+	@Override
+	public String toString() {
+		return "RawRequestBody [raw=" + raw + "]";
+	}
+
+	
 }

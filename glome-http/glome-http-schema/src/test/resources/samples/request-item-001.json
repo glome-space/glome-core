@@ -1,14 +1,10 @@
 {
   "request" : {
     "url" : {
-      "@type" : "composite-url",
-      "scheme" : "http",
-      "host" : "localhost",
-      "port" : 8080,
-      "path" : "account",
-      "query" : "accountId=12345"
+      "@type" : "raw-url",
+      "raw" : "http://httpbin.org/get"
     },
-    "method" : "POST",
+    "method" : "GET",
     "headers" : [ {
       "key" : "Accept",
       "value" : "text/html"
@@ -18,7 +14,7 @@
     } ],
     "requestBody" : {
       "@type" : "raw-body",
-      "raw" : "Body<p>Content</p>"
+      "raw" : "Body"
     }
   }
 }

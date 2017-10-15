@@ -1,0 +1,23 @@
+{
+  "request" : {
+    "url" : {
+      "@type" : "composite-url",
+      "scheme" : "http",
+      "host" : "httpbin.org",
+      "port" : 80,
+      "path" : "/post"
+    },
+    "method" : "POST",
+    "headers" : [ {
+      "key" : "Accept",
+      "value" : "text/html"
+    }, {
+      "key" : "Accept-Language",
+      "value" : "en-US,en;q=0.8"
+    } ],
+    "requestBody" : {
+      "@type" : "raw-body",
+      "raw" : "Body"
+    }
+  }
+}

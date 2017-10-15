@@ -85,4 +85,11 @@ public class HttpRequest extends Request {
 		this.requestBody = body;
 	}
 
+	@Override
+	public String toString() {
+		return "HttpRequest [url=" + url + ", method=" + method + ", headers=" + headers + ", requestBody="
+				+ requestBody + ", proxy=" + proxy + ", certificate=" + certificate + "]";
+	}
+
+	
 }

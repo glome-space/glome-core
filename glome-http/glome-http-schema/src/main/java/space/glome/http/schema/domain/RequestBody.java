@@ -12,5 +12,4 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 		@JsonSubTypes.Type(value = UrlEncodedRequestBody.class, name = "url-encoded-body") })
 public abstract class RequestBody {
 
-
 }
