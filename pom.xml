@@ -54,9 +54,9 @@
 	</dependencyManagement>
 
 	<modules>
-		<module>glome-dispatcher</module>
+		<module>glome-master</module>
 		<module>glome-testdouble</module>
-		<module>glome-node</module>
+		<module>glome-agent</module>
 		<module>glome-schema</module>
 		<module>glome-http</module>
 		<module>glome-jdbc</module>
