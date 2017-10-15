@@ -23,7 +23,7 @@ public class TestMarshallingRequestItem extends TestMarshallingBase {
 	
 	private void testHttpRequestItemMarshalling(String jsonPath) throws Exception {
 		String input = readFile(jsonPath);
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshal(input, HttpRequestItem.class);	
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshal(input, HttpRequestItem.class);			
 		String output = JsonMarshallingUtils.marshal(httpRequestItem);
 		assertEquals(input, output);
 		try {
