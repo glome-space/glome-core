@@ -4,7 +4,7 @@
       "@type" : "composite-url",
       "scheme" : "http",
       "host" : "localhost",
-      "port" : 8080,
+      "port" : "${PORT_NUMBER}",
       "path" : "account",
       "query" : "accountId=12345"
     },
@@ -18,7 +18,7 @@
     } ],
     "requestBody" : {
       "@type" : "raw-body",
-      "raw" : "Body"
+      "raw" : "Body${BODY_CONTENT}"
     }
   }
 }
