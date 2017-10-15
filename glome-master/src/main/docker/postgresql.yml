@@ -1,0 +1,11 @@
+version: '2'
+services:
+    s6work-postgresql:
+        image: postgres:9.6.2
+        # volumes:
+        #     - ~/volumes/jhipster/S6Work/postgresql/:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=S6Work
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432

@@ -5,7 +5,7 @@
 
 	<groupId>space.glome</groupId>
 	<artifactId>glome-core</artifactId>
-	<version>${glome.version}</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>glome</name>
@@ -35,7 +35,6 @@
 	</scm>
 
 	<properties>
-		<glome.version>0.0.1-SNAPSHOT</glome.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>

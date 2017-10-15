@@ -9,14 +9,14 @@
 	<parent>
 		<groupId>space.glome</groupId>
 		<artifactId>glome-http</artifactId>
-		<version>${glome.version}</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>space.glome</groupId>
 			<artifactId>glome-http-schema</artifactId>
-			<version>${glome.version}</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.ratpack</groupId>
