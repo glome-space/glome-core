@@ -8,9 +8,50 @@ public class HttpResponse extends Response {
 
 	private List<Header> headers;
 	
-	private ResponseBody responseBody;
+	private String responseBody;
 	
 	private String status;
 	
 	private Integer code;
+	
+	public HttpResponse() {
+	}
+
+	public List<Header> getHeaders() {
+		return headers;
+	}
+
+	public void setHeaders(List<Header> headers) {
+		this.headers = headers;
+	}
+
+	public String getResponseBody() {
+		return responseBody;
+	}
+
+	public void setResponseBody(String responseBody) {
+		this.responseBody = responseBody;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
+	
+	@Override
+	public String toString() {
+		return "HttpResponse [headers=" + headers + ", responseBody=" + responseBody + ", status=" + status + ", code="
+				+ code + "]";
+	}
 }

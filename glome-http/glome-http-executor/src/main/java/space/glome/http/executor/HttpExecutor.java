@@ -1,7 +1,10 @@
 package space.glome.http.executor;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -41,15 +44,21 @@ public class HttpExecutor {
 			default:
 				throw new Error("Method " + request.getMethod() + " not supported");
 			}
-			try (CloseableHttpResponse response = httpclient.execute(httpUriRequest)) {
-				System.out.println(response.getStatusLine());
-				HttpEntity entity = response.getEntity();
-				// do something useful with the response body
-				// and ensure it is fully consumed
+			try (CloseableHttpResponse httpResponse = httpclient.execute(httpUriRequest)) {
+				HttpEntity entity = httpResponse.getEntity();
+				HttpResponse response = new HttpResponse();
+				response.setResponseBody(convertStreamToString(entity.getContent()));
+				response.setStatus(httpResponse.getStatusLine().toString());
+				response.setCode(httpResponse.getStatusLine().getStatusCode());
+		//TODO		response.setHeaders(httpResponse.getAllHeaders());
 				EntityUtils.consume(entity);
+				return response;
 			}
 		}
-		return null;
+
 	}
 
+	static String convertStreamToString(java.io.InputStream is) {
+		return new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
+	}
 }

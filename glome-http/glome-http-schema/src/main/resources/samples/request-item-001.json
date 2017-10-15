@@ -2,7 +2,7 @@
   "request" : {
     "url" : {
       "@type" : "raw-url",
-      "raw" : "http://localhost:8080/health"
+      "raw" : "http://httpbin.org/get"
     },
     "method" : "GET",
     "headers" : [ {
