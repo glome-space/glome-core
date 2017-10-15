@@ -4,6 +4,13 @@
       "@type" : "raw-url",
       "raw" : "http://localhost:8080/health"
     },
-    "method" : "GET"
+    "method" : "GET",
+    "headers" : [ {
+      "key" : "Accept",
+      "value" : "text/html"
+    }, {
+      "key" : "Accept-Language",
+      "value" : "en-US,en;q=0.8"
+    } ]
   }
 }

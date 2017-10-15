@@ -13,8 +13,17 @@ public class TestMarshallingRequestItem extends TestMarshallingBase {
 
 	@Test
 	public void testHttpRequestItemMarshalling_001() throws Exception {
-		String input = readFile("/samples/request-item-001.json");
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshal(input, HttpRequestItem.class);
+		testHttpRequestItemMarshalling("/samples/request-item-001.json");
+	}
+
+	@Test
+	public void testHttpRequestItemMarshalling_002() throws Exception {
+		testHttpRequestItemMarshalling("/samples/request-item-002.json");
+	}
+	
+	private void testHttpRequestItemMarshalling(String jsonPath) throws Exception {
+		String input = readFile(jsonPath);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshal(input, HttpRequestItem.class);	
 		String output = JsonMarshallingUtils.marshal(httpRequestItem);
 		assertEquals(input, output);
 		try {
@@ -23,5 +32,4 @@ public class TestMarshallingRequestItem extends TestMarshallingBase {
 			assertTrue("ProcessingException thrown on validation", true);
 		}
 	}
-
 }

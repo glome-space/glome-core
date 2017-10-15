@@ -21,6 +21,9 @@ public class CompositeURL extends URL {
 	private String query;
 
 	private String fragment;
+	
+	public CompositeURL() {
+	}
 
 	public CompositeURL(String scheme, String host, Integer port, String path, String query) {
 		this.scheme = scheme;

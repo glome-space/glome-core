@@ -1,0 +1,13 @@
+{
+  "request" : {
+    "url" : {
+      "@type" : "composite-url",
+      "scheme" : "http",
+      "host" : "localhost",
+      "port" : 8080,
+      "path" : "account",
+      "query" : "accountId=12345"
+    },
+    "method" : "POST"
+  }
+}
