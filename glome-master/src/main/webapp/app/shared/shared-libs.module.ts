@@ -26,4 +26,4 @@ import { CookieModule } from 'ngx-cookie';
         InfiniteScrollModule
     ]
 })
-export class S6WorkSharedLibsModule {}
+export class GlomeSharedLibsModule {}

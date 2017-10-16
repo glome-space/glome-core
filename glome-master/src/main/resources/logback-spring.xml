@@ -22,7 +22,7 @@
     </appender>
 -->
 
-    <logger name="com.s6work" level="#logback.loglevel#"/>
+    <logger name="space.glome.master" level="#logback.loglevel#"/>
 
     <logger name="io.github.jhipster" level="#logback.loglevel#"/>
 

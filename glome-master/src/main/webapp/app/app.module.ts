@@ -4,12 +4,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
-import { S6WorkSharedModule, UserRouteAccessService } from './shared';
-import { S6WorkHomeModule } from './home/home.module';
-import { S6WorkAdminModule } from './admin/admin.module';
-import { S6WorkTermModule } from './term/term.module';
-import { S6WorkAccountModule } from './account/account.module';
-import { S6WorkEntityModule } from './entities/entity.module';
+import { GlomeSharedModule, UserRouteAccessService } from './shared';
+import { GlomeHomeModule } from './home/home.module';
+import { GlomeAdminModule } from './admin/admin.module';
+import { GlomeAccountModule } from './account/account.module';
+import { GlomeEntityModule } from './entities/entity.module';
 
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
@@ -31,12 +30,11 @@ import {
         BrowserModule,
         LayoutRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
-        S6WorkSharedModule,
-        S6WorkHomeModule,
-        S6WorkAdminModule,
-        S6WorkAccountModule,
-        S6WorkEntityModule,
-        S6WorkTermModule,
+        GlomeSharedModule,
+        GlomeHomeModule,
+        GlomeAdminModule,
+        GlomeAccountModule,
+        GlomeEntityModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
@@ -54,4 +52,4 @@ import {
     ],
     bootstrap: [ JhiMainComponent ]
 })
-export class S6WorkAppModule {}
+export class GlomeAppModule {}

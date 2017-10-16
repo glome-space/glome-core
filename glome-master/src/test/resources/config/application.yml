@@ -16,14 +16,14 @@
 
 spring:
     application:
-        name: S6Work
+        name: Glome
     jackson:
         serialization.write_dates_as_timestamps: false
     cache:
         type: none
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:h2:mem:S6Work;DB_CLOSE_DELAY=-1
+        url: jdbc:h2:mem:Glome;DB_CLOSE_DELAY=-1
         name:
         username:
         password:

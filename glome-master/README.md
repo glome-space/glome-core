@@ -1,4 +1,4 @@
-# S6Work
+# Glome
 
 
 ## Development
@@ -94,7 +94,7 @@ will generate few files:
 
 ## Building for production
 
-To optimize the S6Work application for production, run:
+To optimize the Glome application for production, run:
 
     ./mvnw -Pprod clean package
 

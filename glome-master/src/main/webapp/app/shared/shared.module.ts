@@ -2,8 +2,8 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import {
-    S6WorkSharedLibsModule,
-    S6WorkSharedCommonModule,
+    GlomeSharedLibsModule,
+    GlomeSharedCommonModule,
     CSRFService,
     AuthServerProvider,
     AccountService,
@@ -18,8 +18,8 @@ import {
 
 @NgModule({
     imports: [
-        S6WorkSharedLibsModule,
-        S6WorkSharedCommonModule
+        GlomeSharedLibsModule,
+        GlomeSharedCommonModule
     ],
     declarations: [
         JhiLoginModalComponent,
@@ -38,7 +38,7 @@ import {
     ],
     entryComponents: [JhiLoginModalComponent],
     exports: [
-        S6WorkSharedCommonModule,
+        GlomeSharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
         DatePipe
@@ -46,4 +46,4 @@ import {
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
-export class S6WorkSharedModule {}
+export class GlomeSharedModule {}

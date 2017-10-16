@@ -1,9 +1,9 @@
 import { platformBrowser } from '@angular/platform-browser';
 import { ProdConfig } from './blocks/config/prod.config';
-import { S6WorkAppModuleNgFactory } from '../../../../target/aot/src/main/webapp/app/app.module.ngfactory';
+import { GlomeAppModuleNgFactory } from '../../../../target/aot/src/main/webapp/app/app.module.ngfactory';
 
 ProdConfig();
 
-platformBrowser().bootstrapModuleFactory(S6WorkAppModuleNgFactory)
+platformBrowser().bootstrapModuleFactory(GlomeAppModuleNgFactory)
 .then((success) => console.log(`Application started`))
 .catch((err) => console.error(err));

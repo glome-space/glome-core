@@ -1,6 +1,6 @@
 version: '2'
 services:
-    s6work-sonar:
+    glome-sonar:
         image: sonarqube:6.4-alpine
         ports:
             - 9000:9000

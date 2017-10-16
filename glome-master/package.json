@@ -1,7 +1,7 @@
 {
 	"name": "s-6-work",
 	"version": "0.0.0",
-	"description": "Description for S6Work",
+	"description": "Description for Glome",
 	"private": true,
 	"license": "UNLICENSED",
 	"cacheDirectories": [
@@ -31,8 +31,7 @@
 		"swagger-ui": "2.2.10",
 		"tether": "1.4.0",
 		"zone.js": "0.8.16",
-		"socket.io-client": "^2.0.3",
-		"hterm-umdjs-s6": "^1.2.0"
+		"socket.io-client": "^2.0.3"
 	},
 	"devDependencies": {
 		"@angular/cli": "1.2.6",

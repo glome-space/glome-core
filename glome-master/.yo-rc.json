@@ -2,8 +2,8 @@
   "generator-jhipster": {
     "applicationType": "monolith",
     "gitHubOrganization": "michaellif",
-    "baseName": "S6Work",
-    "packageName": "com.s6work",
+    "baseName": "Glome",
+    "packageName": "space.glome.master",
     "serverPort": 8080,
     "serviceDiscoveryType": false,
     "authenticationType": "jwt",
@@ -28,7 +28,7 @@
     ],
     "clientFramework": "angularX",
     "jhipsterVersion": "4.7.0",
-    "packageFolder": "com/s6work",
+    "packageFolder": "com/glome/master/",
     "jwtSecretKey": "49ed8e20713296cebc07596000ade58b3a30180a",
     "jhiPrefix": "jhi"
   }

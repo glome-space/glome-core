@@ -1,5 +1,5 @@
-var dataCacheName = 'S6Work-v1';
-var cacheName = 'S6Work-1';
+var dataCacheName = 'Glome-v1';
+var cacheName = 'Glome-1';
 var filesToCache = [
     '/',
     '/index.html'

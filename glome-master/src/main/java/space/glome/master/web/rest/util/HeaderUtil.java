@@ -15,8 +15,8 @@ public final class HeaderUtil {
 
     public static HttpHeaders createAlert(String message, String param) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-s6WorkApp-alert", message);
-        headers.add("X-s6WorkApp-params", param);
+        headers.add("X-glomeApp-alert", message);
+        headers.add("X-glomeApp-params", param);
         return headers;
     }
 
@@ -35,8 +35,8 @@ public final class HeaderUtil {
     public static HttpHeaders createFailureAlert(String entityName, String errorKey, String defaultMessage) {
         log.error("Entity processing failed, {}", defaultMessage);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-s6WorkApp-error", defaultMessage);
-        headers.add("X-s6WorkApp-params", entityName);
+        headers.add("X-glomeApp-error", defaultMessage);
+        headers.add("X-glomeApp-params", entityName);
         return headers;
     }
 }

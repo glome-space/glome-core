@@ -2,14 +2,14 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 import {
-    S6WorkSharedLibsModule,
+    GlomeSharedLibsModule,
     JhiAlertComponent,
     JhiAlertErrorComponent
 } from './';
 
 @NgModule({
     imports: [
-        S6WorkSharedLibsModule
+        GlomeSharedLibsModule
     ],
     declarations: [
         JhiAlertComponent,
@@ -23,9 +23,9 @@ import {
         },
     ],
     exports: [
-        S6WorkSharedLibsModule,
+        GlomeSharedLibsModule,
         JhiAlertComponent,
         JhiAlertErrorComponent
     ]
 })
-export class S6WorkSharedCommonModule {}
+export class GlomeSharedCommonModule {}

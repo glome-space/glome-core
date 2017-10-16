@@ -18,7 +18,7 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/s6-work-websocket").withSockJS();
+		registry.addEndpoint("/glome-websocket").withSockJS();
 	}
 
 }

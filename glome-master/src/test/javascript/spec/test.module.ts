@@ -15,4 +15,4 @@ import { Http, BaseRequestOptions } from '@angular/http';
         }
     ]
 })
-export class S6WorkTestModule {}
+export class GlomeTestModule {}
