@@ -17,7 +17,7 @@
     } ],
     "requestBody" : {
       "@type" : "raw-body",
-      "raw" : "Body"
+      "raw" : "Request Body"
     }
   }
 }
