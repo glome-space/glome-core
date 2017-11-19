@@ -2,7 +2,7 @@
   "request" : {
     "url" : {
       "@type" : "raw-url",
-      "raw" : "http://httpbin.org/get"
+      "raw" : "${URL}"
     },
     "method" : "GET",
     "headers" : [ {

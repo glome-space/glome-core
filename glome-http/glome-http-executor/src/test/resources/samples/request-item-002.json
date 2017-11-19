@@ -2,9 +2,9 @@
   "request" : {
     "url" : {
       "@type" : "composite-url",
-      "scheme" : "http",
+      "scheme" : "${SCHEMA}",
       "host" : "httpbin.org",
-      "port" : 80,
+      "port" : "${PORT_NUMBER}",
       "path" : "/post"
     },
     "method" : "POST",
@@ -17,7 +17,7 @@
     } ],
     "requestBody" : {
       "@type" : "raw-body",
-      "raw" : "Request Body"
+      "raw" : "${BODY_CONTENT}"
     }
   }
 }

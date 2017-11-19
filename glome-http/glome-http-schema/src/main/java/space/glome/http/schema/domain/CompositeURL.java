@@ -1,8 +1,5 @@
 package space.glome.http.schema.domain;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
