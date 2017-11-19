@@ -38,9 +38,6 @@ public class HttpExecutor {
 				break;
 			case POST:
 				HttpPost httpPost = new HttpPost(convert(request.getUrl()));
-				List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-				nvps.add(new BasicNameValuePair("username1", "vip"));
-				nvps.add(new BasicNameValuePair("password2", "secret"));
 				httpPost.setEntity(new ByteArrayEntity(convert(request.getRequestBody())));
 				httpUriRequest = httpPost;
 				break;
