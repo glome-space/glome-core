@@ -1,4 +1,3 @@
 # glome-core
 
-### Release:
 
