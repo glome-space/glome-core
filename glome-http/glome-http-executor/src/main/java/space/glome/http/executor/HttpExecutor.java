@@ -29,6 +29,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -63,7 +64,7 @@ public class HttpExecutor {
 
 		KeyManager[] keyManagers = null;
 
-		//TODO this is just a guess - to be tested and covered with JUnit 
+		// TODO this is just a guess - to be tested and covered with JUnit
 		if (request.getCertificate() != null) {
 			X509Certificate cert = generateCertificate(request.getCertificate().getCert().getBytes());
 			RSAPrivateKey key = generatePrivateKey(request.getCertificate().getKey().getBytes());
@@ -92,19 +93,26 @@ public class HttpExecutor {
 				httpPost.setEntity(new ByteArrayEntity(convert(request.getRequestBody())));
 				httpUriRequest = httpPost;
 				break;
+			case PUT:
+				HttpPut httpPut = new HttpPut(convert(request.getUrl()));
+				httpPut.setEntity(new ByteArrayEntity(convert(request.getRequestBody())));
+				httpUriRequest = httpPut;
+				break;
 			default:
 				throw new Error("Method " + request.getMethod() + " not supported");
 			}
 			httpUriRequest.setHeaders(convert(request.getHeaders()));
 
 			try (CloseableHttpResponse httpResponse = httpclient.execute(httpUriRequest)) {
-				HttpEntity entity = httpResponse.getEntity();
 				HttpResponse response = new HttpResponse();
-				response.setResponseBody(convertStreamToString(entity.getContent()));
+				HttpEntity entity = httpResponse.getEntity();
 				response.setStatus(httpResponse.getStatusLine().toString());
 				response.setCode(httpResponse.getStatusLine().getStatusCode());
 				response.setHeaders(convert(httpResponse.getAllHeaders()));
-				EntityUtils.consume(entity);
+				if (entity != null) {
+					response.setResponseBody(convertStreamToString(httpResponse.getEntity().getContent()));
+					EntityUtils.consume(entity);
+				}
 				return new HttpRecord(request, response);
 			}
 		}
