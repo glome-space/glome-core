@@ -1,6 +1,7 @@
 package space.glome.http.schema.domain;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -83,6 +84,14 @@ public class HttpRequest extends Request {
 
 	public void setRequestBody(RequestBody body) {
 		this.requestBody = body;
+	}
+
+	public void removeHeader(String string) {
+		for (ListIterator<Header> iterator = headers.listIterator(); iterator.hasNext();) {
+			if(iterator.next().getKey().equals(string)) {
+				iterator.remove();
+			}
+		}
 	}
 
 }
