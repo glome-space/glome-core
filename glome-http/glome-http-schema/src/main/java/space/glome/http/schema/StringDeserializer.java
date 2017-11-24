@@ -25,8 +25,10 @@ public class StringDeserializer extends StdDeserializer<String> {
 	public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		JsonNode node = jp.getCodec().readTree(jp);
 		String text = node.asText();
-		for (Entry<String, String> entry : params.entrySet()) {
-			text = text.replace("${" + entry.getKey() + "}", entry.getValue());
+		if (params != null) {
+			for (Entry<String, String> entry : params.entrySet()) {
+				text = text.replace("${" + entry.getKey() + "}", entry.getValue());
+			}
 		}
 		return text;
 	}
