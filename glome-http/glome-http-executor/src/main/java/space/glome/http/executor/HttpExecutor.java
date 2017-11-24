@@ -31,6 +31,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -82,7 +83,7 @@ public class HttpExecutor {
 		SSLContext sslContext = SSLContexts.custom().build();
 		sslContext.init(keyManagers, trustManagers, new SecureRandom());
 
-		try (CloseableHttpClient httpclient = HttpClients.custom().setSSLContext(sslContext).build()) {
+		try (CloseableHttpClient httpclient = HttpClients.custom().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setSSLContext(sslContext).build()) {
 			HttpUriRequest httpUriRequest = null;
 			switch (request.getMethod()) {
 			case GET:
