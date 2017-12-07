@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -16,6 +17,7 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -65,25 +67,26 @@ public class HttpExecutor {
 
 		KeyManager[] keyManagers = null;
 
-		// TODO this is just a guess - to be tested and covered with JUnit
 		if (request.getCertificate() != null) {
-			X509Certificate cert = generateCertificate(request.getCertificate().getCert().getBytes());
-			RSAPrivateKey key = generatePrivateKey(request.getCertificate().getKey().getBytes());
+			Certificate cert = generateCertificate(request.getCertificate().getCert());
+			PrivateKey key = generatePrivateKey(request.getCertificate().getKey());
+			String passphrase = request.getCertificate().getPassphrase();
 
 			KeyStore keystore = KeyStore.getInstance("JKS");
 			keystore.load(null);
 			keystore.setCertificateEntry("cert-alias", cert);
-			keystore.setKeyEntry("key-alias", key, "changeit".toCharArray(), new Certificate[] { cert });
+			keystore.setKeyEntry("key-alias", key, passphrase.toCharArray(), new Certificate[] { cert });
 
 			KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
-			keyManagerFactory.init(keystore, "changeit".toCharArray());
+			keyManagerFactory.init(keystore, passphrase.toCharArray());
 			keyManagers = keyManagerFactory.getKeyManagers();
 		}
 
 		SSLContext sslContext = SSLContexts.custom().build();
 		sslContext.init(keyManagers, trustManagers, new SecureRandom());
 
-		try (CloseableHttpClient httpclient = HttpClients.custom().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setSSLContext(sslContext).build()) {
+		try (CloseableHttpClient httpclient = HttpClients.custom().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+				.setSSLContext(sslContext).build()) {
 			HttpUriRequest httpUriRequest = null;
 			switch (request.getMethod()) {
 			case GET:
@@ -111,7 +114,10 @@ public class HttpExecutor {
 				response.setCode(httpResponse.getStatusLine().getStatusCode());
 				response.setHeaders(convert(httpResponse.getAllHeaders()));
 				if (entity != null) {
-					response.setResponseBody(convertStreamToString(httpResponse.getEntity().getContent()));
+					String responseBody = new BufferedReader(
+							new InputStreamReader(httpResponse.getEntity().getContent())).lines()
+									.collect(Collectors.joining("\n"));
+					response.setResponseBody(responseBody);
 					EntityUtils.consume(entity);
 				}
 				return new HttpRecord(request, response);
@@ -119,19 +125,15 @@ public class HttpExecutor {
 		}
 	}
 
-	private static String convertStreamToString(java.io.InputStream is) {
-		return new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
-	}
-
-	protected static RSAPrivateKey generatePrivateKey(byte[] keyBytes)
+	protected static RSAPrivateKey generatePrivateKey(String key)
 			throws InvalidKeySpecException, NoSuchAlgorithmException {
-		KeyFactory factory = KeyFactory.getInstance("RSA");
-		return (RSAPrivateKey) factory.generatePrivate(new PKCS8EncodedKeySpec(keyBytes));
+		return (RSAPrivateKey) KeyFactory.getInstance("RSA")
+				.generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(key)));
 	}
 
-	protected static X509Certificate generateCertificate(byte[] certBytes) throws CertificateException {
-		CertificateFactory factory = CertificateFactory.getInstance("X.509");
-		return (X509Certificate) factory.generateCertificate(new ByteArrayInputStream(certBytes));
+	protected static X509Certificate generateCertificate(String cert) throws CertificateException {
+		return (X509Certificate) CertificateFactory.getInstance("X.509")
+				.generateCertificate(new ByteArrayInputStream(cert.getBytes()));
 	}
 
 }
