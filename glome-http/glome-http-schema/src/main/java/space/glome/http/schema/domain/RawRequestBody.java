@@ -7,10 +7,6 @@ public class RawRequestBody extends RequestBody {
 	public RawRequestBody() {
 	}
 
-	public RawRequestBody(String raw) {
-		this.raw = raw;
-	}
-
 	public String getRaw() {
 		return raw;
 	}
