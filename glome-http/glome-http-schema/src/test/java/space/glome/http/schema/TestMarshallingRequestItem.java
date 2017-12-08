@@ -3,8 +3,8 @@ package space.glome.http.schema;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ public class TestMarshallingRequestItem extends TestMarshallingBase {
 
 	@Test
 	public void testHttpRequestItemMarshalling_003() throws Exception {
-		List<Argument> arguments = new ArrayList<>();
+		Set<Argument> arguments = new HashSet<>();
 		arguments.add(new Argument("PORT_NUMBER", "8080"));
 		arguments.add(new Argument("BODY_CONTENT", "<p>Content</p>"));
 		testHttpRequestItemMarshallingWithSubstitution("/samples/request-item-003.json", arguments,
@@ -46,7 +46,7 @@ public class TestMarshallingRequestItem extends TestMarshallingBase {
 		}
 	}
 
-	private void testHttpRequestItemMarshallingWithSubstitution(String templateJsonPath, List<Argument> arguments,
+	private void testHttpRequestItemMarshallingWithSubstitution(String templateJsonPath, Set<Argument> arguments,
 			String refJsonPath) throws Exception {
 		String input = readFile(templateJsonPath);
 		String ref = readFile(refJsonPath);

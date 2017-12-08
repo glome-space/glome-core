@@ -1,20 +1,20 @@
 package space.glome.schema.domain;
 
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 public abstract class Request {
 
-	private List<Argument> arguments;
+	private Set<Argument> arguments;
 
 	@JsonInclude(Include.NON_NULL)
-	public List<Argument> getArguments() {
+	public Set<Argument> getArguments() {
 		return arguments;
 	}
 
-	public void setArguments(List<Argument> arguments) {
+	public void setArguments(Set<Argument> arguments) {
 		this.arguments = arguments;
 	}
 }

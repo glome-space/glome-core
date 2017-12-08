@@ -1,7 +1,7 @@
 package space.glome.http.schema;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +23,7 @@ public class JsonMarshallingUtils {
 		return new ObjectMapper().readValue(content, clazz);
 	}
 
-	public static <E> E unmarshal(String content, Class<E> clazz, List<Argument> arguments) throws IOException {
+	public static <E> E unmarshal(String content, Class<E> clazz, Set<Argument> arguments) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 
 		SimpleModule module = new SimpleModule();

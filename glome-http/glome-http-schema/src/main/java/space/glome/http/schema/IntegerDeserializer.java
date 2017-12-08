@@ -1,7 +1,7 @@
 package space.glome.http.schema;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,9 +15,9 @@ public class IntegerDeserializer extends StdDeserializer<Integer> {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<Argument> arguments;
+	private Set<Argument> arguments;
 
-	public IntegerDeserializer(List<Argument> arguments) {
+	public IntegerDeserializer(Set<Argument> arguments) {
 		super(Integer.class);
 		this.arguments = arguments;
 	}
