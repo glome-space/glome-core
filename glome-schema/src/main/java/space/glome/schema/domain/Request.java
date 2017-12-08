@@ -2,14 +2,13 @@ package space.glome.schema.domain;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class Request {
 
 	private Set<Argument> arguments;
 
-	@JsonInclude(Include.NON_NULL)
+	@JsonIgnore
 	public Set<Argument> getArguments() {
 		return arguments;
 	}

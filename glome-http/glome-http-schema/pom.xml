@@ -9,14 +9,14 @@
 	<parent>
 		<groupId>space.glome</groupId>
 		<artifactId>glome-http</artifactId>
-		<version>0.0.9-SNAPSHOT</version>
+		<version>0.0.9</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>space.glome</groupId>
 			<artifactId>glome-schema</artifactId>
-			<version>0.0.9-SNAPSHOT</version>
+			<version>0.0.9</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

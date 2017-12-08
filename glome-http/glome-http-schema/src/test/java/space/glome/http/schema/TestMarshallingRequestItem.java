@@ -36,7 +36,7 @@ public class TestMarshallingRequestItem extends TestMarshallingBase {
 
 	private void testHttpRequestItemMarshalling(String jsonPath) throws Exception {
 		String input = readFile(jsonPath);
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshal(input, HttpRequestItem.class);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshalHttpRequestItem(jsonPath);
 		String output = JsonMarshallingUtils.marshal(httpRequestItem);
 		assertEquals(input, output);
 		try {
@@ -48,9 +48,8 @@ public class TestMarshallingRequestItem extends TestMarshallingBase {
 
 	private void testHttpRequestItemMarshallingWithSubstitution(String templateJsonPath, Set<Argument> arguments,
 			String refJsonPath) throws Exception {
-		String input = readFile(templateJsonPath);
 		String ref = readFile(refJsonPath);
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshal(input, HttpRequestItem.class, arguments);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshalHttpRequestItem(templateJsonPath, arguments);
 		String output = JsonMarshallingUtils.marshal(httpRequestItem);
 		assertEquals(ref, output);
 		try {
