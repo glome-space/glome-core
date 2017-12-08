@@ -3,14 +3,15 @@ package space.glome.http.schema;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 
 import space.glome.http.schema.domain.HttpRequestItem;
+import space.glome.schema.domain.Argument;
 
 public class TestMarshallingRequestItem extends TestMarshallingBase {
 
@@ -26,10 +27,10 @@ public class TestMarshallingRequestItem extends TestMarshallingBase {
 
 	@Test
 	public void testHttpRequestItemMarshalling_003() throws Exception {
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put("PORT_NUMBER", "8080");
-		parameters.put("BODY_CONTENT", "<p>Content</p>");
-		testHttpRequestItemMarshallingWithSubstitution("/samples/request-item-003.json", parameters,
+		List<Argument> arguments = new ArrayList<>();
+		arguments.add(new Argument("PORT_NUMBER", "8080"));
+		arguments.add(new Argument("BODY_CONTENT", "<p>Content</p>"));
+		testHttpRequestItemMarshallingWithSubstitution("/samples/request-item-003.json", arguments,
 				"/samples/request-item-ref-003.json");
 	}
 
@@ -45,11 +46,11 @@ public class TestMarshallingRequestItem extends TestMarshallingBase {
 		}
 	}
 
-	private void testHttpRequestItemMarshallingWithSubstitution(String templateJsonPath, Map<String, String> parameters,
+	private void testHttpRequestItemMarshallingWithSubstitution(String templateJsonPath, List<Argument> arguments,
 			String refJsonPath) throws Exception {
 		String input = readFile(templateJsonPath);
 		String ref = readFile(refJsonPath);
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshal(input, HttpRequestItem.class, parameters);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshal(input, HttpRequestItem.class, arguments);
 		String output = JsonMarshallingUtils.marshal(httpRequestItem);
 		assertEquals(ref, output);
 		try {

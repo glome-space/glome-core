@@ -1,12 +1,14 @@
 package space.glome.http.schema;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import space.glome.schema.domain.Argument;
 
 public class JsonMarshallingUtils {
 
@@ -18,17 +20,19 @@ public class JsonMarshallingUtils {
 	}
 
 	public static <E> E unmarshal(String content, Class<E> clazz) throws IOException {
-		return  new ObjectMapper().readValue(content, clazz);
+		return new ObjectMapper().readValue(content, clazz);
 	}
-	
-	public static <E> E unmarshal(String content, Class<E> clazz, Map<String, String> params) throws IOException {
-		ObjectMapper mapper=  new ObjectMapper();
-		
+
+	public static <E> E unmarshal(String content, Class<E> clazz, List<Argument> arguments) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+
 		SimpleModule module = new SimpleModule();
-		module.addDeserializer(String.class, new StringDeserializer(params));
-		module.addDeserializer(Integer.class, new IntegerDeserializer(params));
+		if (arguments != null) {
+			module.addDeserializer(String.class, new StringDeserializer(arguments));
+			module.addDeserializer(Integer.class, new IntegerDeserializer(arguments));
+		}
 		mapper.registerModule(module);
-		
+
 		return mapper.readValue(content, clazz);
 	}
 }

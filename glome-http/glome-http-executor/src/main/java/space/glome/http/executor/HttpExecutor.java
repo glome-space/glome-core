@@ -72,8 +72,8 @@ public class HttpExecutor {
 		KeyManager[] keyManagers = null;
 
 		if (request.getCertificate() instanceof PemCertificate) {
-			Certificate cert = generateCertificate(((PemCertificate)request.getCertificate()).getCert());
-			PrivateKey key = generatePrivateKey(((PemCertificate)request.getCertificate()).getKey());
+			Certificate cert = generateCertificate(((PemCertificate) request.getCertificate()).getCert());
+			PrivateKey key = generatePrivateKey(((PemCertificate) request.getCertificate()).getKey());
 			String passphrase = request.getCertificate().getPassphrase();
 
 			KeyStore keystore = KeyStore.getInstance("JKS");
@@ -87,10 +87,10 @@ public class HttpExecutor {
 		} else if (request.getCertificate() instanceof JksCertificate) {
 			String passphrase = request.getCertificate().getPassphrase();
 			KeyStore keystore = KeyStore.getInstance("JKS");
-			InputStream readStream = new FileInputStream(((JksCertificate)request.getCertificate()).getFilePath());
+			InputStream readStream = new FileInputStream(((JksCertificate) request.getCertificate()).getFilePath());
 			keystore.load(readStream, passphrase.toCharArray());
 			readStream.close();
-			
+
 			KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
 			keyManagerFactory.init(keystore, passphrase.toCharArray());
 			keyManagers = keyManagerFactory.getKeyManagers();
@@ -108,12 +108,14 @@ public class HttpExecutor {
 				break;
 			case POST:
 				HttpPost httpPost = new HttpPost(convert(request.getUrl()));
-				httpPost.setEntity(new ByteArrayEntity(convert(request.getRequestBody())));
+				httpPost.setEntity(
+						new ByteArrayEntity(ApacheHttpConverters.getRequestBodyAsByteArray(request)));
 				httpUriRequest = httpPost;
 				break;
 			case PUT:
 				HttpPut httpPut = new HttpPut(convert(request.getUrl()));
-				httpPut.setEntity(new ByteArrayEntity(convert(request.getRequestBody())));
+				httpPut.setEntity(
+						new ByteArrayEntity(ApacheHttpConverters.getRequestBodyAsByteArray(request)));
 				httpUriRequest = httpPut;
 				break;
 			default:

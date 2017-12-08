@@ -14,11 +14,13 @@ import space.glome.http.schema.domain.CompositeURL;
 import space.glome.http.schema.domain.FileRequestBody;
 import space.glome.http.schema.domain.FormDataRequestBody;
 import space.glome.http.schema.domain.Header;
+import space.glome.http.schema.domain.HttpRequest;
 import space.glome.http.schema.domain.RawRequestBody;
 import space.glome.http.schema.domain.RawURL;
 import space.glome.http.schema.domain.RequestBody;
 import space.glome.http.schema.domain.URL;
 import space.glome.http.schema.domain.UrlEncodedRequestBody;
+import space.glome.schema.domain.Argument;
 
 public class ApacheHttpConverters {
 
@@ -79,7 +81,8 @@ public class ApacheHttpConverters {
 		}
 	}
 
-	static byte[] convert(RequestBody from) {
+	static byte[] getRequestBodyAsByteArray(HttpRequest request) {
+		RequestBody from = request.getRequestBody();
 		if (from == null) {
 			return new byte[0];
 		}
@@ -87,7 +90,11 @@ public class ApacheHttpConverters {
 			return ((RawRequestBody) from).getRaw().getBytes();
 		} else if (from instanceof FileRequestBody) {
 			try (Scanner scanner = new Scanner(new File(((FileRequestBody) from).getFilePath()))) {
-				return scanner.useDelimiter("\\Z").next().getBytes();
+				String fileContent = scanner.useDelimiter("\\Z").next();
+				for (Argument argument : request.getArguments()) {
+					fileContent = fileContent.replace("${" + argument.getKey() + "}", argument.getValue());
+				}
+				return fileContent.getBytes();
 			} catch (FileNotFoundException e) {
 				throw new Error("Can't load body file", e);
 			}

@@ -10,17 +10,17 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  */
 public abstract class Item {
 
-	private List<Variable> variables;
+	private List<Argument> arguments;
 
 	private Description description;
 
 	@JsonInclude(Include.NON_NULL)
-	public List<Variable> getVariables() {
-		return variables;
+	public List<Argument> getArguments() {
+		return arguments;
 	}
 
-	public void setVariables(List<Variable> variables) {
-		this.variables = variables;
+	public void setArguments(List<Argument> arguments) {
+		this.arguments = arguments;
 	}
 
 	@JsonInclude(Include.NON_NULL)
