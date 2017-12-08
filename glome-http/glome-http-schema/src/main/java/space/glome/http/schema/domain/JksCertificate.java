@@ -3,7 +3,7 @@ package space.glome.http.schema.domain;
 public class JksCertificate extends Certificate {
 
 	private String filePath;
-	
+
 	public String getFilePath() {
 		return filePath;
 	}

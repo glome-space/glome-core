@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class UrlEncodedParameter {
 
 	private String key;
-	
+
 	private String value;
-	
+
 	private Boolean disabled;
-	
+
 	public UrlEncodedParameter() {
 	}
 

@@ -6,12 +6,12 @@ public class PemCertificate extends Certificate {
 	 * Certificate in PEM format
 	 */
 	private String cert;
-	
+
 	/**
 	 * Private key in PEM format (pkcs8)
 	 */
 	private String key;
-	
+
 	public String getCert() {
 		return cert;
 	}

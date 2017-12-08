@@ -25,12 +25,13 @@ public class JsonMarshallingUtils {
 	public static HttpRequestItem unmarshalHttpRequestItem(String requestFilePath) throws Exception {
 		return unmarshalHttpRequestItem(requestFilePath, null);
 	}
-	
-	public static HttpRequestItem unmarshalHttpRequestItem(String requestFilePath, Set<Argument> arguments) throws Exception {
+
+	public static HttpRequestItem unmarshalHttpRequestItem(String requestFilePath, Set<Argument> arguments)
+			throws Exception {
 		HttpRequestItem requestItem = JsonMarshallingUtils.unmarshal(readFile(requestFilePath), HttpRequestItem.class,
 				arguments);
 		Set<Argument> finalArguments = new HashSet<>();
-		if(arguments !=null) {
+		if (arguments != null) {
 			finalArguments.addAll(arguments);
 		}
 
@@ -46,13 +47,12 @@ public class JsonMarshallingUtils {
 		return requestItem;
 	}
 
-
 	private static String readFile(String filePath) throws IOException {
 		try (Scanner scanner = new Scanner(JsonMarshallingUtils.class.getResourceAsStream(filePath), "UTF-8")) {
 			return scanner.useDelimiter("\\A").next();
 		}
 	}
-	
+
 	private static <E> E unmarshal(String content, Class<E> clazz, Set<Argument> arguments) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 

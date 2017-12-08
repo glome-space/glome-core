@@ -7,9 +7,9 @@ import space.glome.schema.domain.Matcher;
 public class HttpRequestMatcher implements Matcher {
 
 	private UrlMatcher urlMatcher;
-	
+
 	private HttpRequest.Method method;
-	
+
 	private List<QueryMatcher> queryMatchers;
 
 	private List<HeaderMatcher> headerMatchers;

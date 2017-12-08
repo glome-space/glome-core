@@ -20,7 +20,8 @@ public class TestHttpExecutor {
 		Set<Argument> arguments = new HashSet<>();
 		arguments.add(new Argument("URL", "http://httpbin.org/get"));
 
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshalHttpRequestItem("/samples/request-item-001.json", arguments);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils
+				.unmarshalHttpRequestItem("/samples/request-item-001.json", arguments);
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
 		assertEquals(200, record.getResponse().getCode().intValue());
 		assertTrue(
@@ -34,7 +35,8 @@ public class TestHttpExecutor {
 		Set<Argument> arguments = new HashSet<>();
 		arguments.add(new Argument("URL", "https://httpbin.org/anything"));
 
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshalHttpRequestItem("/samples/request-item-001.json", arguments);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils
+				.unmarshalHttpRequestItem("/samples/request-item-001.json", arguments);
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
 		assertEquals(200, record.getResponse().getCode().intValue());
 		assertTrue(
@@ -49,7 +51,8 @@ public class TestHttpExecutor {
 		arguments.add(new Argument("PORT_NUMBER", "80"));
 		arguments.add(new Argument("BODY_CONTENT", "Request Body"));
 
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshalHttpRequestItem("/samples/request-item-002.json", arguments);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils
+				.unmarshalHttpRequestItem("/samples/request-item-002.json", arguments);
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
 		assertEquals(200, record.getResponse().getCode().intValue());
 		assertTrue(
@@ -65,7 +68,8 @@ public class TestHttpExecutor {
 		arguments.add(new Argument("PORT_NUMBER", "443"));
 		arguments.add(new Argument("BODY_CONTENT", "Request Body Number Two"));
 
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshalHttpRequestItem("/samples/request-item-002.json", arguments);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils
+				.unmarshalHttpRequestItem("/samples/request-item-002.json", arguments);
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
 		assertEquals(200, record.getResponse().getCode().intValue());
 		assertTrue(
@@ -80,7 +84,8 @@ public class TestHttpExecutor {
 		arguments.add(new Argument("URL", "https://httpbin.org/anything"));
 		arguments.add(new Argument("BODY_FILE_NAME", "body-001.xml"));
 
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshalHttpRequestItem("/samples/request-item-003.json", arguments);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils
+				.unmarshalHttpRequestItem("/samples/request-item-003.json", arguments);
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
 		assertEquals(200, record.getResponse().getCode().intValue());
 		assertTrue(
@@ -96,7 +101,8 @@ public class TestHttpExecutor {
 		arguments.add(new Argument("BODY_FILE_NAME", "body-002.xml"));
 		arguments.add(new Argument("BODY_TEXT", "BodyFromFile2"));
 
-		HttpRequestItem httpRequestItem = JsonMarshallingUtils.unmarshalHttpRequestItem("/samples/request-item-003.json", arguments);
+		HttpRequestItem httpRequestItem = JsonMarshallingUtils
+				.unmarshalHttpRequestItem("/samples/request-item-003.json", arguments);
 		HttpRecord record = new HttpExecutor().exec(httpRequestItem.getRequest());
 		assertEquals(200, record.getResponse().getCode().intValue());
 		assertTrue(

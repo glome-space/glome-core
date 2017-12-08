@@ -20,26 +20,26 @@ public class JsonValidationUtils {
 	public static void validateRequest(String json) throws IOException, ProcessingException {
 		validate(json, "/schema/request-schema.json");
 	}
-	
+
 	public static void validateRequestItem(String json) throws IOException, ProcessingException {
 		validate(json, "/schema/request-item-schema.json");
 	}
-	
+
 	public static void validateResponse(String json) throws IOException, ProcessingException {
 		validate(json, "/schema/response-schema.json");
 	}
-	
+
 	public static void validateMappingItem(String json) throws IOException, ProcessingException {
 		validate(json, "/schema/mapping-item-schema.json");
 	}
-	
+
 	private static void validate(String json, String schemaPath) throws IOException, ProcessingException {
 		try (Scanner scanner = new Scanner(JsonMarshallingUtils.class.getResourceAsStream(schemaPath), "UTF-8")) {
 			String schema = scanner.useDelimiter("\\A").next();
 			JsonValidationUtils.validateJson(schema, json);
 		}
 	}
-	
+
 	private static JsonNode getJsonNode(String jsonText) throws IOException {
 		return JsonLoader.fromString(jsonText);
 	}

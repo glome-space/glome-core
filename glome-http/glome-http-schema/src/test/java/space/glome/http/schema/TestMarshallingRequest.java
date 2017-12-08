@@ -23,5 +23,4 @@ public class TestMarshallingRequest extends TestMarshallingBase {
 		}
 	}
 
-
 }
