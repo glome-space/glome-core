@@ -107,16 +107,16 @@ public class HttpExecutor {
 			}
 			httpUriRequest.setHeaders(convert(request.getHeaders()));
 
-			try (CloseableHttpResponse httpResponse = httpclient.execute(httpUriRequest)) {
+			try (CloseableHttpResponse apacheResponse = httpclient.execute(httpUriRequest)) {
 				HttpResponse response = new HttpResponse();
-				HttpEntity entity = httpResponse.getEntity();
-				response.setStatus(httpResponse.getStatusLine().toString());
-				response.setCode(httpResponse.getStatusLine().getStatusCode());
-				response.setHeaders(convert(httpResponse.getAllHeaders()));
+				response.setStatus(apacheResponse.getStatusLine().toString());
+				response.setCode(apacheResponse.getStatusLine().getStatusCode());
+				response.setHeaders(convert(apacheResponse.getAllHeaders()));
+
+				HttpEntity entity = apacheResponse.getEntity();
 				if (entity != null) {
-					String responseBody = new BufferedReader(
-							new InputStreamReader(httpResponse.getEntity().getContent())).lines()
-									.collect(Collectors.joining("\n"));
+					String responseBody = new BufferedReader(new InputStreamReader(entity.getContent())).lines()
+							.collect(Collectors.joining("\n"));
 					response.setResponseBody(responseBody);
 					EntityUtils.consume(entity);
 				}
