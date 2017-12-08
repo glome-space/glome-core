@@ -1,9 +1,12 @@
 package space.glome.http.executor;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.apache.http.message.BasicHeader;
 
@@ -83,8 +86,11 @@ public class ApacheHttpConverters {
 		if (from instanceof RawRequestBody) {
 			return ((RawRequestBody) from).getRaw().getBytes();
 		} else if (from instanceof FileRequestBody) {
-			// TODO
-			throw new Error("Converter for FileRequestBody is not implemented yet");
+			try (Scanner scanner = new Scanner(new File(((FileRequestBody) from).getFilePath()))) {
+				return scanner.useDelimiter("\\Z").next().getBytes();
+			} catch (FileNotFoundException e) {
+				throw new Error("Can't load body file", e);
+			}
 		} else if (from instanceof FormDataRequestBody) {
 			// TODO
 			throw new Error("Converter for FormDataRequestBody is not implemented yet");
@@ -92,7 +98,7 @@ public class ApacheHttpConverters {
 			// TODO
 			throw new Error("Converter for UrlEncodedRequestBody is not implemented yet");
 		} else {
-			throw new Error("Can't convert RequestBody");
+			throw new Error("Converter for " + from.getClass().getSimpleName() + " is not implemented");
 		}
 	}
 }
