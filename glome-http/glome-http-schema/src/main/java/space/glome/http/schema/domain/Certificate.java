@@ -1,34 +1,16 @@
 package space.glome.http.schema.domain;
 
-public class Certificate {
-	
-	/**
-	 * Certificate in PEM format
-	 */
-	private String cert;
-	
-	/**
-	 * Private key in PEM format
-	 */
-	private String key;
-	
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({ @JsonSubTypes.Type(value = PemCertificate.class, name = "pem"),
+		@JsonSubTypes.Type(value = JksCertificate.class, name = "jks") })
+public abstract class Certificate {
+
 	private String passphrase;
-	
-	public String getCert() {
-		return cert;
-	}
-
-	public void setCert(String cert) {
-		this.cert = cert;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
 
 	public String getPassphrase() {
 		return passphrase;

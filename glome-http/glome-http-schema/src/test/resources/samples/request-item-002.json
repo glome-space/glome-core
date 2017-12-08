@@ -18,6 +18,11 @@
     "requestBody" : {
       "@type" : "raw-body",
       "raw" : "Body"
+    },
+    "certificate" : {
+      "@type" : "jks",
+      "passphrase" : "pass",
+      "filePath" : "/cert.jks"
     }
   }
 }

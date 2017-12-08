@@ -4,7 +4,10 @@ import static space.glome.http.executor.ApacheHttpConverters.convert;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
@@ -43,6 +46,8 @@ import org.apache.http.util.EntityUtils;
 import space.glome.http.schema.domain.HttpRecord;
 import space.glome.http.schema.domain.HttpRequest;
 import space.glome.http.schema.domain.HttpResponse;
+import space.glome.http.schema.domain.JksCertificate;
+import space.glome.http.schema.domain.PemCertificate;
 
 public class HttpExecutor {
 
@@ -67,9 +72,9 @@ public class HttpExecutor {
 
 		KeyManager[] keyManagers = null;
 
-		if (request.getCertificate() != null) {
-			Certificate cert = generateCertificate(request.getCertificate().getCert());
-			PrivateKey key = generatePrivateKey(request.getCertificate().getKey());
+		if (request.getCertificate() instanceof PemCertificate) {
+			Certificate cert = generateCertificate(((PemCertificate)request.getCertificate()).getCert());
+			PrivateKey key = generatePrivateKey(((PemCertificate)request.getCertificate()).getKey());
 			String passphrase = request.getCertificate().getPassphrase();
 
 			KeyStore keystore = KeyStore.getInstance("JKS");
@@ -77,6 +82,16 @@ public class HttpExecutor {
 			keystore.setCertificateEntry("cert-alias", cert);
 			keystore.setKeyEntry("key-alias", key, passphrase.toCharArray(), new Certificate[] { cert });
 
+			KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
+			keyManagerFactory.init(keystore, passphrase.toCharArray());
+			keyManagers = keyManagerFactory.getKeyManagers();
+		} else if (request.getCertificate() instanceof JksCertificate) {
+			String passphrase = request.getCertificate().getPassphrase();
+			KeyStore keystore = KeyStore.getInstance("JKS");
+			InputStream readStream = new FileInputStream(((JksCertificate)request.getCertificate()).getFilePath());
+			keystore.load(readStream, passphrase.toCharArray());
+			readStream.close();
+			
 			KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
 			keyManagerFactory.init(keystore, passphrase.toCharArray());
 			keyManagers = keyManagerFactory.getKeyManagers();

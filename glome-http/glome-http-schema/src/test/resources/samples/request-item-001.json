@@ -15,6 +15,12 @@
     "requestBody" : {
       "@type" : "raw-body",
       "raw" : "Body"
+    },
+    "certificate" : {
+      "@type" : "pem",
+      "passphrase" : "pass",
+      "cert" : "-----BEGIN CERTIFICATE-----A1S2-----END CERTIFICATE-----",
+      "key" : "RwRw=="
     }
   }
 }
