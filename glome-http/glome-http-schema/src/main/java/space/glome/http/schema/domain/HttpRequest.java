@@ -1,11 +1,16 @@
 package space.glome.http.schema.domain;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Scanner;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import space.glome.schema.domain.Argument;
 import space.glome.schema.domain.Request;
 
 public class HttpRequest extends Request {
@@ -94,4 +99,31 @@ public class HttpRequest extends Request {
 		}
 	}
 
+	@JsonIgnore
+	public byte[] getPayload() {
+		if (requestBody == null) {
+			return new byte[0];
+		}
+		if (requestBody instanceof RawRequestBody) {
+			return ((RawRequestBody) requestBody).getRaw().getBytes();
+		} else if (requestBody instanceof FileRequestBody) {
+			try (Scanner scanner = new Scanner(new File(((FileRequestBody) requestBody).getFilePath()))) {
+				String fileContent = scanner.useDelimiter("\\Z").next();
+				for (Argument argument : getArguments()) {
+					fileContent = fileContent.replace("${" + argument.getKey() + "}", argument.getValue());
+				}
+				return fileContent.getBytes();
+			} catch (FileNotFoundException e) {
+				throw new Error("Can't load body file", e);
+			}
+		} else if (requestBody instanceof FormDataRequestBody) {
+			// TODO
+			throw new Error("Converter for FormDataRequestBody is not implemented yet");
+		} else if (requestBody instanceof UrlEncodedRequestBody) {
+			// TODO
+			throw new Error("Converter for UrlEncodedRequestBody is not implemented yet");
+		} else {
+			throw new Error("Converter for " + this.getClass().getSimpleName() + " is not implemented");
+		}
+	}
 }

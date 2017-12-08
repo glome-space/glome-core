@@ -108,12 +108,12 @@ public class HttpExecutor {
 				break;
 			case POST:
 				HttpPost httpPost = new HttpPost(convert(request.getUrl()));
-				httpPost.setEntity(new ByteArrayEntity(ApacheHttpConverters.getRequestBodyAsByteArray(request)));
+				httpPost.setEntity(new ByteArrayEntity(request.getPayload()));
 				httpUriRequest = httpPost;
 				break;
 			case PUT:
 				HttpPut httpPut = new HttpPut(convert(request.getUrl()));
-				httpPut.setEntity(new ByteArrayEntity(ApacheHttpConverters.getRequestBodyAsByteArray(request)));
+				httpPut.setEntity(new ByteArrayEntity(request.getPayload()));
 				httpUriRequest = httpPut;
 				break;
 			default:
