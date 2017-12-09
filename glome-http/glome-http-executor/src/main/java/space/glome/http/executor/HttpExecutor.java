@@ -101,8 +101,11 @@ public class HttpExecutor {
 		SSLContext sslContext = SSLContexts.custom().build();
 		sslContext.init(keyManagers, trustManagers, new SecureRandom());
 
-		RequestConfig config = RequestConfig.custom().setConnectTimeout(2000).setConnectionRequestTimeout(2000)
-				.setSocketTimeout(2000).build();
+		Integer timeout = request.getTimeout();
+		timeout = timeout == null ? 2000 : timeout;
+
+		RequestConfig config = RequestConfig.custom().setConnectTimeout(timeout)
+				.setConnectionRequestTimeout(timeout).setSocketTimeout(timeout).build();
 
 		try (CloseableHttpClient httpclient = HttpClientBuilder.create().setDefaultRequestConfig(config)
 				.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setSSLContext(sslContext).build()) {

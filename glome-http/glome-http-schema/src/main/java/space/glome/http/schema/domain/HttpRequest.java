@@ -31,6 +31,8 @@ public class HttpRequest extends Request {
 
 	private Certificate certificate;
 
+	private Integer timeout;
+
 	protected HttpRequest() {
 	}
 
@@ -91,6 +93,15 @@ public class HttpRequest extends Request {
 		this.requestBody = body;
 	}
 
+	@JsonInclude(Include.NON_NULL)
+	public Integer getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(Integer timeout) {
+		this.timeout = timeout;
+	}
+	
 	public void removeHeader(String string) {
 		for (ListIterator<Header> iterator = headers.listIterator(); iterator.hasNext();) {
 			if (iterator.next().getKey().equals(string)) {
