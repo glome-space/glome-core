@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
@@ -30,6 +31,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -38,7 +40,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 
@@ -99,8 +101,11 @@ public class HttpExecutor {
 		SSLContext sslContext = SSLContexts.custom().build();
 		sslContext.init(keyManagers, trustManagers, new SecureRandom());
 
-		try (CloseableHttpClient httpclient = HttpClients.custom().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-				.setSSLContext(sslContext).build()) {
+		RequestConfig config = RequestConfig.custom().setConnectTimeout(2000).setConnectionRequestTimeout(2000)
+				.setSocketTimeout(2000).build();
+
+		try (CloseableHttpClient httpclient = HttpClientBuilder.create().setDefaultRequestConfig(config)
+				.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setSSLContext(sslContext).build()) {
 			HttpUriRequest httpUriRequest = null;
 			switch (request.getMethod()) {
 			case GET:
@@ -121,8 +126,8 @@ public class HttpExecutor {
 			}
 			httpUriRequest.setHeaders(convert(request.getHeaders()));
 
+			HttpResponse response = new HttpResponse();
 			try (CloseableHttpResponse apacheResponse = httpclient.execute(httpUriRequest)) {
-				HttpResponse response = new HttpResponse();
 				response.setStatus(apacheResponse.getStatusLine().toString());
 				response.setCode(apacheResponse.getStatusLine().getStatusCode());
 				response.setHeaders(convert(apacheResponse.getAllHeaders()));
@@ -134,6 +139,10 @@ public class HttpExecutor {
 					response.setResponseBody(responseBody);
 					EntityUtils.consume(entity);
 				}
+				return new HttpRecord(request, response);
+			} catch (SocketTimeoutException e) {
+				response.setCode(999); // Timeout
+				response.setResponseBody("");
 				return new HttpRecord(request, response);
 			}
 		}
