@@ -130,7 +130,10 @@ public class HttpExecutor {
 			httpUriRequest.setHeaders(convert(request.getHeaders()));
 
 			HttpResponse response = new HttpResponse();
+			long start = System.nanoTime();
 			try (CloseableHttpResponse apacheResponse = httpclient.execute(httpUriRequest)) {
+				long elapsedTime = System.nanoTime() - start;
+				response.setElapsedTime(elapsedTime);
 				response.setStatus(apacheResponse.getStatusLine().toString());
 				response.setCode(apacheResponse.getStatusLine().getStatusCode());
 				response.setHeaders(convert(apacheResponse.getAllHeaders()));

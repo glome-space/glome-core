@@ -13,6 +13,8 @@ public class HttpResponse extends Response {
 	private String status;
 
 	private Integer code;
+	
+	private Long elapsedTime;
 
 	public HttpResponse() {
 	}
@@ -49,4 +51,11 @@ public class HttpResponse extends Response {
 		this.code = code;
 	}
 
+	public Long getElapsedTime() {
+		return elapsedTime;
+	}
+
+	public void setElapsedTime(Long elapsedTime) {
+		this.elapsedTime = elapsedTime;
+	}
 }
