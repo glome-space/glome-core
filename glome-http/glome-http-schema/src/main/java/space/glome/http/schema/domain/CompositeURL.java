@@ -1,9 +1,12 @@
 package space.glome.http.schema.domain;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-public class CompositeURL extends URL {
+public class CompositeURL implements URL {
 
 	private String scheme;
 
@@ -91,6 +94,12 @@ public class CompositeURL extends URL {
 
 	public void setFragment(String fragment) {
 		this.fragment = fragment;
+	}
+
+	@Override
+	public String getRaw() throws URISyntaxException {
+		return new URI(scheme, userInfo, host, port == null ? 0 : port, path, query, fragment).toString();
+
 	}
 
 }
