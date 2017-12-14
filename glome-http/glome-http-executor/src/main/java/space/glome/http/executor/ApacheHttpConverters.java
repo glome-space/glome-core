@@ -1,16 +1,11 @@
 package space.glome.http.executor;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.message.BasicHeader;
 
-import space.glome.http.schema.domain.CompositeURL;
 import space.glome.http.schema.domain.Header;
-import space.glome.http.schema.domain.RawURL;
-import space.glome.http.schema.domain.URL;
 
 public class ApacheHttpConverters {
 
@@ -48,27 +43,6 @@ public class ApacheHttpConverters {
 			return null;
 		}
 		return new Header(from.getName(), from.getValue());
-	}
-
-	static String convert(URL from) {
-		if (from == null) {
-			return null;
-		}
-		try {
-			if (from instanceof RawURL) {
-				RawURL rawURL = (RawURL) from;
-				return new URI(rawURL.getRaw()).toString();
-			} else if (from instanceof CompositeURL) {
-				CompositeURL compositeURL = (CompositeURL) from;
-				return new URI(compositeURL.getScheme(), compositeURL.getUserInfo(), compositeURL.getHost(),
-						compositeURL.getPort() == null ? 0 : compositeURL.getPort(), compositeURL.getPath(),
-						compositeURL.getQuery(), compositeURL.getFragment()).toString();
-			} else {
-				throw new Error("Can't convert URL");
-			}
-		} catch (URISyntaxException e) {
-			throw new Error("Can't convert URL", e);
-		}
 	}
 
 }
