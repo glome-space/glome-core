@@ -13,28 +13,20 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 		@JsonSubTypes.Type(value = CompositeURL.class, name = "composite-url") })
 public interface URL {
 
-	@JsonIgnore
 	String getScheme();
 
-	@JsonIgnore
 	String getUserInfo();
 
-	@JsonIgnore
 	String getHost();
 
-	@JsonIgnore
 	String getPath();
 
-	@JsonIgnore
 	Integer getPort() ;
 
-	@JsonIgnore
 	String getQuery();
 
-	@JsonIgnore
 	String getFragment();
 
-	@JsonIgnore
 	String getRaw() throws URISyntaxException;
 
 
