@@ -28,8 +28,8 @@ public class TestHttpTestDouble {
 
 	@Test
 	public void testSimpleClient() throws Exception {
-		EmbeddedApp.fromHandler(ctx -> ctx.render(ctx.get(HttpClient.class).get( //
-				HttpUrlBuilder.http().host(InetAddress.getLoopbackAddress().getHostAddress()).port(8888).build())
+		EmbeddedApp.fromHandler(ctx -> ctx.render(ctx.get(HttpClient.class) //
+				.get(HttpUrlBuilder.http().host(InetAddress.getLoopbackAddress().getHostAddress()).port(8888).build())
 				.map(response -> response.getBody().getText())))
 				.test(httpClient -> assertEquals("Hello Glome", httpClient.getText()));
 
