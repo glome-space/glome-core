@@ -21,6 +21,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -43,12 +44,22 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import org.apache.jmeter.control.LoopController;
+import org.apache.jmeter.engine.StandardJMeterEngine;
+import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
+import org.apache.jmeter.reporters.ResultCollector;
+import org.apache.jmeter.save.SaveService;
+import org.apache.jmeter.testelement.TestPlan;
+import org.apache.jmeter.threads.SetupThreadGroup;
+import org.apache.jmeter.util.JMeterUtils;
+import org.apache.jorphan.collections.HashTree;
 
 import space.glome.http.schema.domain.HttpRecord;
 import space.glome.http.schema.domain.HttpRequest;
 import space.glome.http.schema.domain.HttpResponse;
 import space.glome.http.schema.domain.JksCertificate;
 import space.glome.http.schema.domain.PemCertificate;
+import space.glome.schema.domain.ExecutionPlan;
 
 public class HttpExecutor {
 
@@ -104,23 +115,23 @@ public class HttpExecutor {
 		Integer timeout = request.getTimeout();
 		timeout = timeout == null ? 2000 : timeout;
 
-		RequestConfig config = RequestConfig.custom().setConnectTimeout(timeout)
-				.setConnectionRequestTimeout(timeout).setSocketTimeout(timeout).build();
+		RequestConfig config = RequestConfig.custom().setConnectTimeout(timeout).setConnectionRequestTimeout(timeout)
+				.setSocketTimeout(timeout).build();
 
 		try (CloseableHttpClient httpclient = HttpClientBuilder.create().setDefaultRequestConfig(config)
 				.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setSSLContext(sslContext).build()) {
 			HttpUriRequest httpUriRequest = null;
 			switch (request.getMethod()) {
 			case GET:
-				httpUriRequest = new HttpGet(convert(request.getUrl()));
+				httpUriRequest = new HttpGet(request.getUrl().getRaw());
 				break;
 			case POST:
-				HttpPost httpPost = new HttpPost(convert(request.getUrl()));
+				HttpPost httpPost = new HttpPost(request.getUrl().getRaw());
 				httpPost.setEntity(new ByteArrayEntity(request.getPayload()));
 				httpUriRequest = httpPost;
 				break;
 			case PUT:
-				HttpPut httpPut = new HttpPut(convert(request.getUrl()));
+				HttpPut httpPut = new HttpPut(request.getUrl().getRaw());
 				httpPut.setEntity(new ByteArrayEntity(request.getPayload()));
 				httpUriRequest = httpPut;
 				break;
@@ -152,6 +163,58 @@ public class HttpExecutor {
 				return new HttpRecord(request, response);
 			}
 		}
+	}
+
+	public JMeterSummariser exec(Set<HttpRequest> requests, ExecutionPlan execPlan) throws Exception {
+
+		String jmeterHome = System.getProperty("glome.jmeter.home");
+		if (jmeterHome == null) {
+			throw new RuntimeException("glome.jmeter.home property is not set");
+		}
+
+		StandardJMeterEngine jmeter = new StandardJMeterEngine();
+		JMeterUtils.setJMeterHome(jmeterHome);
+		JMeterUtils.loadJMeterProperties(jmeterHome + "/jmeter.properties");
+		JMeterUtils.initLogging();
+		SaveService.loadProperties();
+
+		HashTree hashTree = new HashTree();
+
+		LoopController loopCtrl = new LoopController();
+		loopCtrl.setLoops(1);
+		loopCtrl.setFirst(true);
+
+		SetupThreadGroup threadGroup = new SetupThreadGroup();
+		threadGroup.setNumThreads(execPlan.getNumThreads());
+		threadGroup.setRampUp(execPlan.getRampUp());
+		threadGroup.setSamplerController(loopCtrl);
+
+		TestPlan testPlan = new TestPlan(execPlan.getName());
+
+		hashTree.add("testPlan", testPlan);
+		hashTree.add("loopCtrl", loopCtrl);
+		hashTree.add("threadGroup", threadGroup);
+
+		int i = 0;
+		for (HttpRequest httpRequest : requests) {
+			HTTPSampler httpSampler = new HTTPSampler();
+			httpSampler.setDomain(httpRequest.getUrl().getHost());
+			httpSampler.setPort(httpRequest.getUrl().getPort());
+			httpSampler.setPath(httpRequest.getUrl().getPath());
+			httpSampler.setMethod(httpRequest.getMethod().name());
+			loopCtrl.addTestElement(httpSampler);
+			hashTree.add("httpSampler" + i++, httpSampler);
+		}
+
+		JMeterSummariser summariser = new JMeterSummariser();
+		ResultCollector logger = new ResultCollector(summariser);
+		hashTree.add(hashTree.getArray()[0], logger);
+
+		jmeter.configure(hashTree);
+
+		jmeter.run();
+
+		return summariser;
 	}
 
 	protected static RSAPrivateKey generatePrivateKey(String key)
