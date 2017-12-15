@@ -35,5 +35,8 @@ public class TestHttpTestDouble {
 
 	}
 	
+	public static void main(String[] args) throws Exception {
+		runTestServer();
+	}
 	
 }
