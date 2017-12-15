@@ -44,15 +44,22 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
-import org.apache.jmeter.control.LoopController;
+import org.apache.jmeter.assertions.ResponseAssertion;
+import org.apache.jmeter.control.TransactionController;
 import org.apache.jmeter.engine.StandardJMeterEngine;
-import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
+import org.apache.jmeter.protocol.http.control.Header;
+import org.apache.jmeter.protocol.http.control.HeaderManager;
+import org.apache.jmeter.protocol.http.gui.HeaderPanel;
+import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.save.SaveService;
+import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.testelement.TestPlan;
-import org.apache.jmeter.threads.SetupThreadGroup;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
+import org.apache.jorphan.collections.ListedHashTree;
+
+import com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroup;
 
 import space.glome.http.schema.domain.HttpRecord;
 import space.glome.http.schema.domain.HttpRequest;
@@ -178,40 +185,57 @@ public class HttpExecutor {
 		JMeterUtils.initLogging();
 		SaveService.loadProperties();
 
-		HashTree hashTree = new HashTree();
-
-		LoopController loopCtrl = new LoopController();
-		loopCtrl.setLoops(1);
-		loopCtrl.setFirst(true);
-
-		SetupThreadGroup threadGroup = new SetupThreadGroup();
-		threadGroup.setNumThreads(execPlan.getNumThreads());
-		threadGroup.setRampUp(execPlan.getRampUp());
-		threadGroup.setSamplerController(loopCtrl);
+		ListedHashTree rootTree = new ListedHashTree();
 
 		TestPlan testPlan = new TestPlan(execPlan.getName());
+		HashTree testPlanTree = rootTree.add(testPlan);
 
-		hashTree.add("testPlan", testPlan);
-		hashTree.add("loopCtrl", loopCtrl);
-		hashTree.add("threadGroup", threadGroup);
-
-		int i = 0;
 		for (HttpRequest httpRequest : requests) {
-			HTTPSampler httpSampler = new HTTPSampler();
+
+			ConcurrencyThreadGroup threadGroup = new ConcurrencyThreadGroup();
+			threadGroup.setName("Test123");
+			threadGroup.setProperty("ThreadGroup.on_sample_error", "startnextloop");
+			threadGroup.setTargetLevel("2");
+			threadGroup.setRampUp("2");
+			threadGroup.setSteps("2");
+			threadGroup.setHold("2");
+			threadGroup.setUnit("S");
+			HashTree threadGroupTree = testPlanTree.add(threadGroup);
+
+			ResponseAssertion responseAssertion = new ResponseAssertion();
+			responseAssertion.setAssumeSuccess(true);
+			responseAssertion.setTestFieldResponseCode();
+			responseAssertion.setScopeAll();
+			responseAssertion.addTestString("200");
+			threadGroupTree.add(responseAssertion);
+
+			TransactionController transactionController = new TransactionController();
+			transactionController.setIncludeTimers(false);
+			transactionController.setParent(true);
+			HashTree transactionControllerTree = threadGroupTree.add(transactionController);
+
+			HTTPSamplerProxy httpSampler = new HTTPSamplerProxy();
 			httpSampler.setDomain(httpRequest.getUrl().getHost());
 			httpSampler.setPort(httpRequest.getUrl().getPort());
-			httpSampler.setPath(httpRequest.getUrl().getPath());
+			httpSampler.setPath(httpRequest.getUrl().getPath() + "?" + httpRequest.getUrl().getQuery());
+			httpSampler.setProtocol(httpRequest.getUrl().getScheme());
 			httpSampler.setMethod(httpRequest.getMethod().name());
-			loopCtrl.addTestElement(httpSampler);
-			hashTree.add("httpSampler" + i++, httpSampler);
+			transactionControllerTree.add(httpSampler);
+
+			HeaderManager headerManager = new HeaderManager();
+			headerManager.setProperty(TestElement.TEST_CLASS, HeaderManager.class.getName());
+			headerManager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
+			for (space.glome.http.schema.domain.Header header : httpRequest.getHeaders()) {
+				headerManager.add(new Header(header.getKey(), header.getValue()));
+			}
+			threadGroupTree.add(headerManager);
 		}
 
 		JMeterSummariser summariser = new JMeterSummariser();
 		ResultCollector logger = new ResultCollector(summariser);
-		hashTree.add(hashTree.getArray()[0], logger);
+		testPlanTree.add(logger);
 
-		jmeter.configure(hashTree);
-
+		jmeter.configure(rootTree);
 		jmeter.run();
 
 		return summariser;
