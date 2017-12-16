@@ -1,25 +1,25 @@
 package space.glome.schema.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ExecutionPlan {
 
 	private String name;
-	
-	private int numThreads;
 
-	private int rampUp;
+	private Set<ExecutionGroup> groups;
 
-	public ExecutionPlan(String name, int numThreads, int rampUp) {
+	public ExecutionPlan(String name) {
 		this.name = name;
-		this.numThreads = numThreads;
-		this.rampUp = rampUp;
+		groups = new HashSet<>();
 	}
 
-	public int getNumThreads() {
-		return numThreads;
+	public void addExecutionGroup(ExecutionGroup group) {
+		groups.add(group);
 	}
-
-	public int getRampUp() {
-		return rampUp;
+	
+	public Set<ExecutionGroup> getExecutionGroup() {
+		return groups;
 	}
 
 	public String getName() {
