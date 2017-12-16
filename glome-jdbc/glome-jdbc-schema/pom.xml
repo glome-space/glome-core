@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>space.glome</groupId>
 		<artifactId>glome-jdbc</artifactId>
-		<version>0.0.15-SNAPSHOT</version>
+		<version>0.0.15</version>
 	</parent>
 	
 </project>

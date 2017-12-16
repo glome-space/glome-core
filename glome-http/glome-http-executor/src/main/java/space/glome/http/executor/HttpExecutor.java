@@ -173,7 +173,7 @@ public class HttpExecutor {
 		}
 	}
 
-	public JMeterSummariser exec(ExecutionPlan execPlan) throws Exception {
+	public JMeterSummariser exec(ExecutionPlan<HttpRequest> execPlan) throws Exception {
 
 		String jmeterHome = System.getProperty("glome.jmeter.home");
 		if (jmeterHome == null) {
@@ -191,7 +191,7 @@ public class HttpExecutor {
 		TestPlan testPlan = new TestPlan(execPlan.getName());
 		HashTree testPlanTree = rootTree.add(testPlan);
 
-		for (ExecutionGroup group : execPlan.getExecutionGroup()) {
+		for (ExecutionGroup<HttpRequest> group : execPlan.getExecutionGroup()) {
 
 			ConcurrencyThreadGroup threadGroup = new ConcurrencyThreadGroup();
 			threadGroup.setName(group.getName());
@@ -207,7 +207,7 @@ public class HttpExecutor {
 			transactionController.setParent(true);
 			HashTree transactionControllerTree = threadGroupTree.add(transactionController);
 
-			HttpRequest httpRequest = group.getHttpRequest();
+			HttpRequest httpRequest = group.getRequest();
 			
 			HTTPSamplerProxy httpSampler = new HTTPSamplerProxy();
 			httpSampler.setDomain(httpRequest.getUrl().getHost());

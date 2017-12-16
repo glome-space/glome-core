@@ -9,7 +9,7 @@ public class JMeterSummariser extends Summariser {
 
 	private static final long serialVersionUID = 0L;
 
-	final RunningSample total = new RunningSample("TOTAL", 0);
+	private final RunningSample total = new RunningSample("TOTAL", 0);
 
 	public JMeterSummariser() {
 		super();
@@ -49,6 +49,10 @@ public class JMeterSummariser extends Summariser {
 	public void testEnded(String host) {
 	}
 
+	public RunningSample getTotal() {
+		return total;
+	}
+	
 	public String printSummary() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Number of Requests raised=").append(total.getNumSamples()).append('\n');

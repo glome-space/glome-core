@@ -1,12 +1,10 @@
 package space.glome.schema.domain;
 
-import space.glome.http.schema.domain.HttpRequest;
-
-public class ExecutionGroup {
+public class ExecutionGroup<E extends Request> {
 
 	private String name;
 
-	private HttpRequest httpRequest;
+	private E request;
 
 	private String targetConcurrency;
 
@@ -31,12 +29,12 @@ public class ExecutionGroup {
 		this.name = name;
 	}
 
-	public HttpRequest getHttpRequest() {
-		return httpRequest;
+	public E getRequest() {
+		return request;
 	}
 
-	public void setHttpRequest(HttpRequest httpRequest) {
-		this.httpRequest = httpRequest;
+	public void setRequest(E request) {
+		this.request = request;
 	}
 
 	public String getAssertionResponseCode() {
