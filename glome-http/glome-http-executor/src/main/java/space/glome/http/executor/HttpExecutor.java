@@ -21,7 +21,6 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -45,6 +44,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.apache.jmeter.assertions.ResponseAssertion;
+import org.apache.jmeter.assertions.gui.AssertionGui;
 import org.apache.jmeter.control.TransactionController;
 import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.protocol.http.control.Header;
@@ -66,6 +66,7 @@ import space.glome.http.schema.domain.HttpRequest;
 import space.glome.http.schema.domain.HttpResponse;
 import space.glome.http.schema.domain.JksCertificate;
 import space.glome.http.schema.domain.PemCertificate;
+import space.glome.schema.domain.ExecutionGroup;
 import space.glome.schema.domain.ExecutionPlan;
 
 public class HttpExecutor {
@@ -172,7 +173,7 @@ public class HttpExecutor {
 		}
 	}
 
-	public JMeterSummariser exec(Set<HttpRequest> requests, ExecutionPlan execPlan) throws Exception {
+	public JMeterSummariser exec(ExecutionPlan execPlan) throws Exception {
 
 		String jmeterHome = System.getProperty("glome.jmeter.home");
 		if (jmeterHome == null) {
@@ -190,37 +191,41 @@ public class HttpExecutor {
 		TestPlan testPlan = new TestPlan(execPlan.getName());
 		HashTree testPlanTree = rootTree.add(testPlan);
 
-		for (HttpRequest httpRequest : requests) {
+		for (ExecutionGroup group : execPlan.getExecutionGroup()) {
 
 			ConcurrencyThreadGroup threadGroup = new ConcurrencyThreadGroup();
-			threadGroup.setName("Test123");
-			threadGroup.setProperty("ThreadGroup.on_sample_error", "startnextloop");
-			threadGroup.setTargetLevel("2");
-			threadGroup.setRampUp("2");
-			threadGroup.setSteps("2");
-			threadGroup.setHold("2");
+			threadGroup.setName(group.getName());
+			threadGroup.setTargetLevel(String.valueOf(group.getTargetConcurrency()));
+			threadGroup.setRampUp(String.valueOf(group.getRampUpTime()));
+			threadGroup.setSteps(String.valueOf(group.getRampUpStepCount()));
+			threadGroup.setHold(String.valueOf(group.getHoldTargetRateTime()));
 			threadGroup.setUnit("S");
 			HashTree threadGroupTree = testPlanTree.add(threadGroup);
-
-			ResponseAssertion responseAssertion = new ResponseAssertion();
-			responseAssertion.setAssumeSuccess(true);
-			responseAssertion.setTestFieldResponseCode();
-			responseAssertion.setScopeAll();
-			responseAssertion.addTestString("200");
-			threadGroupTree.add(responseAssertion);
-
+			
 			TransactionController transactionController = new TransactionController();
 			transactionController.setIncludeTimers(false);
 			transactionController.setParent(true);
 			HashTree transactionControllerTree = threadGroupTree.add(transactionController);
 
+			HttpRequest httpRequest = group.getHttpRequest();
+			
 			HTTPSamplerProxy httpSampler = new HTTPSamplerProxy();
 			httpSampler.setDomain(httpRequest.getUrl().getHost());
 			httpSampler.setPort(httpRequest.getUrl().getPort());
 			httpSampler.setPath(httpRequest.getUrl().getPath() + "?" + httpRequest.getUrl().getQuery());
 			httpSampler.setProtocol(httpRequest.getUrl().getScheme());
 			httpSampler.setMethod(httpRequest.getMethod().name());
-			transactionControllerTree.add(httpSampler);
+			HashTree httpSamplerTree = transactionControllerTree.add(httpSampler);
+			
+			ResponseAssertion responseAssertion = new ResponseAssertion();
+			responseAssertion.setProperty(TestElement.TEST_CLASS, ResponseAssertion.class.getName());
+			responseAssertion.setProperty(TestElement.GUI_CLASS, AssertionGui.class.getName());
+			responseAssertion.setAssumeSuccess(false);
+			responseAssertion.setTestFieldResponseCode();
+			responseAssertion.setScopeAll();
+			responseAssertion.setToEqualsType();
+			responseAssertion.addTestString(group.getAssertionResponseCode());
+			httpSamplerTree.add(responseAssertion);
 
 			HeaderManager headerManager = new HeaderManager();
 			headerManager.setProperty(TestElement.TEST_CLASS, HeaderManager.class.getName());
