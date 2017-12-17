@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.SocketTimeoutException;
+import java.net.URLEncoder;
 import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
@@ -201,22 +202,26 @@ public class HttpExecutor {
 			threadGroup.setHold(String.valueOf(group.getHoldTargetRateTime()));
 			threadGroup.setUnit("S");
 			HashTree threadGroupTree = testPlanTree.add(threadGroup);
-			
+
 			TransactionController transactionController = new TransactionController();
 			transactionController.setIncludeTimers(false);
 			transactionController.setParent(true);
 			HashTree transactionControllerTree = threadGroupTree.add(transactionController);
 
 			HttpRequest httpRequest = group.getRequest();
-			
+
 			HTTPSamplerProxy httpSampler = new HTTPSamplerProxy();
 			httpSampler.setDomain(httpRequest.getUrl().getHost());
 			httpSampler.setPort(httpRequest.getUrl().getPort());
 			httpSampler.setPath(httpRequest.getUrl().getPath() + "?" + httpRequest.getUrl().getQuery());
 			httpSampler.setProtocol(httpRequest.getUrl().getScheme());
 			httpSampler.setMethod(httpRequest.getMethod().name());
+			if (httpSampler.getMethod().equals("POST")) {
+				httpSampler.setPostBodyRaw(true);
+				httpSampler.addNonEncodedArgument("", new String(httpRequest.getPayload()), "=");
+			}
 			HashTree httpSamplerTree = transactionControllerTree.add(httpSampler);
-			
+
 			ResponseAssertion responseAssertion = new ResponseAssertion();
 			responseAssertion.setProperty(TestElement.TEST_CLASS, ResponseAssertion.class.getName());
 			responseAssertion.setProperty(TestElement.GUI_CLASS, AssertionGui.class.getName());
