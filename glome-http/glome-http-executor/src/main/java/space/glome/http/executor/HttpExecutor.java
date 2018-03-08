@@ -33,6 +33,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -144,7 +145,7 @@ public class HttpExecutor {
 				httpUriRequest = httpPut;
 				break;
 			case DELETE:
-				httpUriRequest = new HttpDelete(request.getUrl().getRaw());;
+				httpUriRequest = new HttpDelete(request.getUrl().getRaw());
 				break;
 			default:
 				throw new Error("Method " + request.getMethod() + " not supported");
