@@ -5,7 +5,7 @@
 
 	<groupId>space.glome</groupId>
 	<artifactId>glome-core</artifactId>
-	<version>0.0.17</version>
+	<version>0.0.18-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>glome-core</name>
