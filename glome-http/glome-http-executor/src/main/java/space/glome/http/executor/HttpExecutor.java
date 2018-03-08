@@ -143,6 +143,9 @@ public class HttpExecutor {
 				httpPut.setEntity(new ByteArrayEntity(request.getPayload()));
 				httpUriRequest = httpPut;
 				break;
+			case DELETE:
+				httpUriRequest = new HttpDelete(request.getUrl().getRaw());;
+				break;
 			default:
 				throw new Error("Method " + request.getMethod() + " not supported");
 			}
